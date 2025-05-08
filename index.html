@@ -20,20 +20,21 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start; /* Align to top to see more content if it overflows */
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px; /* Increased top/bottom padding for body */
             line-height: 1.6;
         }
 
         .container {
             width: 100%;
-            max-width: 900px;
+            max-width: 900px; /* Max width for the content */
             text-align: center;
             padding: 40px 20px;
             background-color: #181818; /* Slightly lighter card background */
             border-radius: 16px; /* Apple-esque rounded corners */
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            margin-bottom: 40px; /* Add some space before footer if content grows */
         }
 
         /* --- Header --- */
@@ -63,6 +64,7 @@
         /* --- Button Grid & Button Styles --- */
         .button-grid {
             display: grid;
+            /* Adjust to fit 3 columns nicely, or let auto-fit handle it */
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px;
             margin-bottom: 50px;
@@ -82,7 +84,7 @@
             min-height: 180px; /* Ensure consistent height */
         }
 
-        .btn-portfolio { /* Renamed class for clarity, though btn-project would still work */
+        .btn-portfolio {
             background-color: #282828; /* Darker button background */
             color: #f5f5f7; /* Apple's off-white */
             border: 1px solid #383838; /* Subtle border */
@@ -125,13 +127,16 @@
 
         /* --- Footer --- */
         footer {
-            margin-top: 30px;
+            /* margin-top: 30px; Removed fixed margin top, will be naturally spaced by body padding */
             font-size: 0.9rem;
             color: #707070;
+            width: 100%;
+            max-width: 900px; /* Align footer with container width */
+            text-align: center;
         }
 
         /* --- Responsive Adjustments --- */
-        @media (max-width: 768px) {
+        @media (max-width: 768px) { /* For tablets and larger phones */
             header h1 {
                 font-size: 2.2rem;
             }
@@ -139,8 +144,14 @@
                 font-size: 1rem;
             }
             .button-grid {
-                grid-template-columns: 1fr; /* Stack buttons on smaller screens */
+                 /* If more than 3 items, 2 columns might look better than 1 on medium screens */
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
                 gap: 20px;
+            }
+        }
+        @media (max-width: 576px) { /* For smaller phones */
+             .button-grid {
+                grid-template-columns: 1fr; /* Stack buttons on smaller screens */
             }
             .btn {
                 padding: 20px;
@@ -159,8 +170,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>Portfolio Drafts</h1>
-            <p>Explore the different design iterations of my portfolio.</p>
+            <h1>Portfolio Drafts & Ideas</h1>
+            <p>Explore the different design iterations and concepts for my portfolio.</p>
         </header>
 
         <nav class="button-grid">
@@ -179,11 +190,26 @@
                 <span class="btn-text">Portfolio Draft 3</span>
                 <span class="btn-subtext">See latest iteration</span>
             </a>
+            <a href="code4.html" target="_blank" rel="noopener noreferrer" class="btn btn-portfolio"> <!-- New Button 1 -->
+                <span class="btn-icon">💡</span>
+                <span class="btn-text">Portfolio Draft 4</span>
+                <span class="btn-subtext">Experimental layout</span>
+            </a>
+            <a href="code5.html" target="_blank" rel="noopener noreferrer" class="btn btn-portfolio"> <!-- New Button 2 -->
+                <span class="btn-icon">💸</span>
+                <span class="btn-text">Portfolio Draft 5</span>
+                <span class="btn-subtext">Minimalist approach</span>
+            </a>
+            <a href="code6.html" target="_blank" rel="noopener noreferrer" class="btn btn-portfolio"> <!-- New Button 3 -->
+                <span class="btn-icon">🚀</span>
+                <span class="btn-text">Portfolio Draft 6</span>
+                <span class="btn-subtext">Bold & Interactive</span>
+            </a>
         </nav>
-
-        <footer>
-            <p>&copy; 2025 Wiqnnc_. All rights reserved.</p>
-        </footer>
     </div>
+
+    <footer>
+        <p>© 2025 Wiqnnc_. All rights reserved.</p>
+    </footer>
 </body>
 </html>
