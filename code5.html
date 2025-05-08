@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win Rattanaporn | Portfolio</title>
+    <!-- Google Font: Inter (similar to Apple's SF Pro) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- ScrollReveal Library -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <style>
+        :root {
+            --bg-color-light: #f5f5f7; /* Apple's light grey background */
+            --bg-color-white: #ffffff;
+            --text-color-primary: #1d1d1f; /* Apple's primary dark text */
+            --text-color-secondary: #515154; /* Apple's secondary grey text */
+            --text-color-tertiary: #86868b; /* Lighter grey for less emphasis */
+            --accent-color-blue: #0071e3; /* Apple's blue */
+            --divider-color: #d2d2d7;
+            --font-family-apple: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            --border-radius-apple: 12px; /* Common Apple border radius */
+        }
+
+        /* Reset and Basic Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family-apple);
+            background-color: var(--bg-color-white); /* Default to white background */
+            color: var(--text-color-primary);
+            line-height: 1.6;
+            font-size: 17px; /* Apple often uses 17px or 19px base */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1024px; /* Max width for content area, similar to Apple */
+            margin: 0 auto;
+            padding: 0 20px; /* Consistent padding */
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--text-color-primary);
+            font-weight: 600; /* Semi-bold for headings */
+            margin-bottom: 0.5em; /* Tighter bottom margin */
+        }
+
+        h1 { font-size: clamp(2.8em, 6vw, 4em); line-height: 1.1; font-weight: 700; }
+        h2 { font-size: clamp(2em, 5vw, 3em); line-height: 1.2; font-weight: 600; text-align: center; margin-bottom: 1.5em;}
+        h3 { font-size: clamp(1.4em, 4vw, 1.8em); font-weight: 600; }
+        h4 { font-size: clamp(1.1em, 3vw, 1.3em); font-weight: 500; }
+
+
+        p {
+            margin-bottom: 1.25em;
+            color: var(--text-color-secondary);
+            font-size: 1.05em; /* Slightly larger paragraph text */
+        }
+        p.lead {
+            font-size: 1.25em;
+            color: var(--text-color-primary);
+            font-weight: 400;
+        }
+
+        a {
+            color: var(--accent-color-blue);
+            text-decoration: none;
+            font-weight: 500; /* Medium weight for links */
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--border-radius-apple);
+        }
+
+        /* Scroll Progress Bar (Subtle) */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background-color: var(--accent-color-blue);
+            width: 0%;
+            z-index: 10000;
+            transition: width 0.1s linear;
+        }
+
+        /* Site Header */
+        .site-header {
+            position: fixed; /* Sticky header */
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.8); /* Translucent white */
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            padding: 0;
+            z-index: 999;
+            border-bottom: 1px solid var(--divider-color);
+            height: 52px; /* Typical Apple header height */
+        }
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+        }
+        .logo {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: var(--text-color-primary);
+        }
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px; /* Slightly more space */
+        }
+        .main-nav a {
+            color: var(--text-color-primary);
+            font-size: 0.9em; /* Smaller nav links */
+            font-weight: 400;
+            transition: color 0.2s ease;
+        }
+        .main-nav a:hover, .main-nav a.active {
+            color: var(--accent-color-blue);
+            text-decoration: none;
+        }
+
+        /* General Section Styling */
+        .section {
+            padding: 80px 0; /* Generous padding */
+            overflow: hidden; /* For scroll animations */
+        }
+        .section.hero-section { /* First section after header */
+             padding-top: 120px; /* 52px header + extra space */
+             min-height: 80vh;
+             display: flex;
+             align-items: center;
+             text-align: center;
+        }
+        .section.grey-bg {
+            background-color: var(--bg-color-light);
+        }
+
+        /* Hero Section */
+        .hero-content .sub-headline {
+            font-size: 1.2em;
+            color: var(--text-color-tertiary);
+            margin-bottom: 1.5em;
+            font-weight: 500;
+        }
+        .hero-content h1 {
+            margin-bottom: 0.3em;
+        }
+        .hero-content .lead {
+            max-width: 650px;
+            margin: 0 auto 2em auto;
+            color: var(--text-color-secondary);
+            font-size: 1.3em;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+        .hero-image {
+            margin-top: 3em;
+            max-width: 600px; /* Control image size */
+            margin-left: auto;
+            margin-right: auto;
+        }
+         .hero-image img {
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+
+        /* About Section */
+        #about .about-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 50px;
+            align-items: center;
+            margin-top: 2em;
+        }
+        @media (min-width: 768px) {
+            #about .about-grid {
+                grid-template-columns: 3fr 2fr; /* Text left, image right */
+            }
+            #about .about-grid .about-image { order: 1; } /* Image on right */
+        }
+        #about .about-text h3 {
+            margin-bottom: 1em;
+        }
+
+        /* Skills Section */
+        #skills h2 { margin-bottom: 0.5em;}
+        #skills .skills-intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 3em auto;
+            color: var(--text-color-secondary);
+            font-size: 1.1em;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        .skill-card {
+            background-color: var(--bg-color-white);
+            padding: 30px;
+            border-radius: var(--border-radius-apple);
+            border: 1px solid var(--divider-color); /* Subtle border */
+            text-align: center;
+        }
+        .skill-card .skill-icon { /* Placeholder for icon */
+            font-size: 2.5em;
+            color: var(--accent-color-blue);
+            margin-bottom: 0.5em;
+        }
+        .skill-card h4 {
+            color: var(--text-color-primary);
+            font-weight: 600;
+            margin-bottom: 0.5em;
+        }
+        .skill-card p {
+            font-size: 0.95em;
+            color: var(--text-color-tertiary);
+            margin-bottom: 0;
+        }
+
+        /* Achievements Section (Simplified to "Milestones") */
+        #milestones .milestones-list {
+            margin-top: 2em;
+        }
+        .milestone-item {
+            padding: 25px 0;
+            border-bottom: 1px solid var(--divider-color);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .milestone-item:last-child {
+            border-bottom: none;
+        }
+        @media (min-width: 600px) {
+            .milestone-item {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+                 gap: 20px;
+            }
+        }
+        .milestone-item .date {
+            font-weight: 600;
+            color: var(--text-color-primary);
+            font-size: 0.9em;
+            flex-shrink: 0;
+            min-width: 60px; /* Ensure date has space */
+        }
+        .milestone-item .description h4 {
+            margin-bottom: 0.2em;
+            font-size: 1.15em;
+        }
+        .milestone-item .description p {
+            font-size: 0.95em;
+            color: var(--text-color-secondary);
+            margin-bottom: 0;
+        }
+
+        /* Projects / Gallery Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Single column for larger cards by default */
+            gap: 60px; /* More space between large project cards */
+            margin-top: 2em;
+        }
+        @media (min-width: 900px) { /* For very large "hero" style cards */
+             /* If you want two columns for larger items:
+            .projects-grid { grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; }
+            */
+        }
+        .project-showcase-card {
+            background-color: var(--bg-color-light); /* Grey bg for showcase cards */
+            border-radius: var(--border-radius-apple);
+            overflow: hidden;
+            text-align: center;
+            padding: 50px 30px; /* Generous padding inside the card */
+        }
+        .project-showcase-card.dark-card {
+            background-color: #000; /* Apple sometimes uses black cards */
+            color: var(--bg-color-white);
+        }
+        .project-showcase-card.dark-card h3,
+        .project-showcase-card.dark-card p,
+        .project-showcase-card.dark-card a {
+            color: var(--bg-color-white);
+        }
+        .project-showcase-card.dark-card a:hover {
+            color: #a0a0a5; /* Lighter grey for hover on dark bg */
+        }
+
+        .project-showcase-card h3 {
+            font-size: clamp(1.8em, 4vw, 2.5em);
+            font-weight: 600;
+            margin-bottom: 0.3em;
+        }
+        .project-showcase-card .project-subtitle {
+            font-size: 1.2em;
+            color: var(--text-color-secondary);
+            margin-bottom: 1.5em;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .project-showcase-card.dark-card .project-subtitle { color: #a0a0a5; }
+
+        .project-showcase-card .media-container {
+            margin: 2em auto;
+            max-width: 800px; /* Control media size within card */
+        }
+        .project-showcase-card .media-container img {
+            border-radius: calc(var(--border-radius-apple) - 4px); /* Inner radius */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .project-showcase-card .media-container iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            border: none;
+            border-radius: calc(var(--border-radius-apple) - 4px);
+        }
+        .project-showcase-card .project-link {
+            display: inline-block;
+            margin-top: 1em;
+            font-size: 1.05em;
+        }
+        .project-showcase-card .project-link::after {
+            content: " >"; /* Apple's typical link arrow */
+        }
+
+        /* Image Gallery (smaller cards) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-top: 1em;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 250px; /* Consistent height */
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .gallery-item img:hover {
+            transform: scale(1.03);
+        }
+
+
+        /* Contact Section */
+        #contact { text-align: center; }
+        #contact .contact-intro {
+            max-width: 600px;
+            margin: 0 auto 2em auto;
+            font-size: 1.1em;
+        }
+        .contact-buttons a {
+            display: inline-block;
+            background-color: var(--accent-color-blue);
+            color: var(--bg-color-white);
+            padding: 15px 30px; /* Larger buttons */
+            border-radius: 25px; /* Pill shape */
+            text-decoration: none;
+            margin: 10px 5px;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+            font-size: 1em;
+        }
+        .contact-buttons a:hover {
+            background-color: #005bb5; /* Darker blue on hover */
+            color: var(--bg-color-white);
+            text-decoration: none;
+        }
+        .contact-socials {
+            margin-top: 2.5em;
+        }
+        .contact-socials p {
+            color: var(--text-color-tertiary);
+            font-size: 0.95em;
+            margin-bottom: 0.5em;
+        }
+        .contact-socials a {
+            margin: 0 10px;
+            font-size: 0.95em;
+        }
+
+
+        /* Footer */
+        .site-footer {
+            background-color: var(--bg-color-light);
+            padding: 40px 0;
+            margin-top: 80px;
+            text-align: center;
+            font-size: 0.85em; /* Smaller footer text */
+            color: var(--text-color-tertiary);
+        }
+        .site-footer .footer-links {
+            margin-bottom: 1em;
+        }
+        .site-footer .footer-links a {
+            margin: 0 10px;
+            color: var(--text-color-secondary);
+        }
+        .site-footer .footer-links a:hover {
+            color: var(--accent-color-blue);
+        }
+        .site-footer .copyright {
+            margin-bottom: 0.5em;
+        }
+
+
+        /* ScrollReveal class (can be empty if JS handles initial state) */
+        .apple-reveal {
+            /* opacity: 0; */ /* Initial state can be set by ScrollReveal */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body { font-size: 16px; }
+            .main-nav { display: none; } /* For simplicity, hide nav on mobile. A real Apple site would have a menu icon. */
+            .logo { margin: 0 auto; /* Center logo if nav is hidden */ }
+            h1 { font-size: 2.5em; }
+            h2 { font-size: 1.8em; }
+            .section.hero-section { padding-top: 100px; }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="progress-bar"></div>
+
+    <header class="site-header">
+        <div class="container">
+            <a href="#home" class="logo">Win R.</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#projects" class="nav-link">Projects</a></li>
+                    <li><a href="#skills" class="nav-link">Skills</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="section hero-section">
+            <div class="container apple-reveal">
+                <div class="hero-content">
+                    <p class="sub-headline">Kirati Rattanaporn</p>
+                    <h1>Exploring Technology, Creativity, and Storytelling.</h1>
+                    <p class="lead">
+                        Passionate Grade 10 student from Bangkok, with a keen interest in photography, film,
+                        and the endless possibilities of multimedia.
+                    </p>
+                    <div class="hero-image">
+                         <!-- Use your best, most impactful photo here -->
+                        <img src="Pic10.webp" alt="Win Rattanaporn - Technology and Creative Enthusiast">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section grey-bg">
+            <div class="container">
+                <h2 class="apple-reveal">Hello, I'm Win.</h2>
+                <div class="about-grid">
+                    <div class="about-text apple-reveal">
+                        <h3>My Journey So Far</h3>
+                        <p>
+                            I'm a technology and creative enthusiast currently in Grade 10. My world revolves around exploring
+                            the intersections of tech, astronomy, photography, and film. I thrive on learning and creating.
+                        </p>
+                        <p>
+                            My academic and extracurricular pursuits have led to multiple awards in robotics, English contests,
+                            and athletics, reflecting my dedication to both intellectual and physical challenges.
+                            My ambition is to study multimedia at SPSM School and later at Chulalongkorn University's
+                            Faculty of Communication Arts.
+                        </p>
+                        <p><i>"No risk. No story."</i> This motto guides my approach to new experiences and learning.</p>
+                        <p><a href="https://en.wikipedia.org/wiki/Draft:Kirati_Rattanaporn" target="_blank">Learn more on Wikipedia ></a></p>
+                    </div>
+                    <div class="about-image apple-reveal">
+                        <!-- Another good quality image of you or related to your interests -->
+                        <img src="Pic9.webp" alt="Win Rattanaporn - Creative Pursuits">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="container">
+                <h2 class="apple-reveal">Projects & Gallery</h2>
+
+                <div class="projects-grid">
+                    <div class="project-showcase-card apple-reveal">
+                        <h3>Feature Video Showcase</h3>
+                        <p class="project-subtitle">A glimpse into my journey and creative endeavors.</p>
+                        <div class="media-container">
+                            <iframe src="https://www.youtube.com/embed/BMhot-xCYmk" allowfullscreen></iframe>
+                        </div>
+                        <a href="https://www.youtube.com/channel/UCMQefq5ku1GHvTm50Ysixyg" target="_blank" class="project-link">Watch on YouTube</a>
+                    </div>
+
+                    <div class="project-showcase-card dark-card apple-reveal"> <!-- Example of a dark card -->
+                        <h3>A Journey Through Photography</h3>
+                        <p class="project-subtitle">Capturing moments that speak louder than words. Explore a selection of my favorite shots.</p>
+                        <div class="gallery-grid">
+                            <div class="gallery-item"><img src="Pic2.webp" alt="Photo 2"></div>
+                            <div class="gallery-item"><img src="Pic3.webp" alt="Photo 3"></div>
+                            <div class="gallery-item"><img src="Pic4.webp" alt="Photo 4"></div>
+                            <div class="gallery-item"><img src="Pic5.webp" alt="Photo 5"></div>
+                            <div class="gallery-item"><img src="Pic6.webp" alt="Photo 6"></div>
+                            <div class="gallery-item"><img src="Pic10.webp" alt="Photo Collage item, previously Pic10"></div>
+                        </div>
+                         <a href="https://www.instagram.com/Win.albums" target="_blank" class="project-link">View More on Instagram</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section grey-bg">
+            <div class="container">
+                <h2 class="apple-reveal">Core Strengths</h2>
+                <p class="skills-intro apple-reveal">
+                    I'm driven by a blend of technical aptitude and creative vision, constantly seeking to expand my capabilities.
+                </p>
+                <div class="skills-grid">
+                    <div class="skill-card apple-reveal">
+                        <div class="skill-icon">📷</div> <!-- Simple emoji icon -->
+                        <h4>Photography</h4>
+                        <p>Skilled in capturing compelling visuals and telling stories through images.</p>
+                    </div>
+                    <div class="skill-card apple-reveal">
+                        <div class="skill-icon">💡</div>
+                        <h4>Technology & Innovation</h4>
+                        <p>Proficient with technology, robotics, and exploring new digital frontiers.</p>
+                    </div>
+                    <div class="skill-card apple-reveal">
+                        <div class="skill-icon">🎬</div>
+                        <h4>Film & Multimedia</h4>
+                        <p>Developing skills in filmmaking and multimedia production.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Milestones Section -->
+        <section id="milestones" class="section">
+            <div class="container">
+                <h2 class="apple-reveal">Key Milestones</h2>
+                <div class="milestones-list">
+                    <div class="milestone-item apple-reveal">
+                        <span class="date">2024</span>
+                        <div class="description">
+                            <h4>National Robotics Golds & Regional English Silver</h4>
+                            <p>Achieved two gold medals in national robotics competitions and a silver award in a regional English contest.</p>
+                        </div>
+                    </div>
+                    <div class="milestone-item apple-reveal">
+                        <span class="date">2023</span>
+                        <div class="description">
+                            <h4>Multiple Robotics Golds & Academic Awards</h4>
+                            <p>Secured two gold medals in robotics, an English contest award, and a gold for a mathematics project.</p>
+                        </div>
+                    </div>
+                    <div class="milestone-item apple-reveal">
+                        <span class="date">2022</span>
+                        <div class="description">
+                            <h4>Early Successes in Robotics & Athletics</h4>
+                            <p>Won first gold medals in robotics and a gold medal in school sports day running events.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section grey-bg">
+            <div class="container">
+                <h2 class="apple-reveal">Let's Connect</h2>
+                <p class="contact-intro apple-reveal">
+                    I'm always interested in new opportunities, collaborations, or just a friendly chat.
+                    Feel free to reach out.
+                </p>
+                <div class="contact-buttons apple-reveal">
+                    <a href="https://www.instagram.com/Win.rn" target="_blank">Message on Instagram</a>
+                    <a href="https://www.youtube.com/channel/UCMQefq5ku1GHvTm50Ysixyg" target="_blank">Visit YouTube Channel</a>
+                </div>
+                <div class="contact-socials apple-reveal">
+                    <p>Find more about my work and journey:</p>
+                    <a href="https://www.instagram.com/Win.albums" target="_blank">Photography Portfolio</a>
+                    <span style="color: var(--text-color-tertiary); margin: 0 5px;">&bull;</span>
+                    <a href="https://en.wikipedia.org/wiki/Draft:Kirati_Rattanaporn" target="_blank">Wikipedia Biography</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="https://www.instagram.com/Win.rn" target="_blank">Instagram</a>
+            </div>
+            <p class="copyright">Copyright © <span id="currentYear"></span> Win. All rights reserved.</p>
+            <p>Inspired by Apple.com design language.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // Scroll Progress Bar
+            const progressBar = document.getElementById('progress-bar');
+            if (progressBar) {
+                window.addEventListener('scroll', () => {
+                    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                    progressBar.style.width = scrollPercentage + '%';
+                });
+            }
+
+            // Smooth Scrolling & Active Nav Link
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section'); // Use generic .section for observation
+            const headerHeight = document.querySelector('.site-header')?.offsetHeight || 52;
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        // Calculate offset considering fixed header
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerHeight;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            function changeActiveLink() {
+                let index = sections.length;
+                 // Iterate downwards from the bottom section
+                while(--index && window.scrollY + headerHeight + 50 < sections[index].offsetTop) {}
+                
+                navLinks.forEach((link) => link.classList.remove('active'));
+                // Check if the target section has a corresponding nav link
+                if (index >=0 && sections[index]) {
+                    const activeSectionId = sections[index].id;
+                    const activeNavLink = document.querySelector(`.nav-link[href="#${activeSectionId}"]`);
+                    if (activeNavLink) {
+                        activeNavLink.classList.add('active');
+                    }
+                }
+            }
+            // Initial call to set active link on page load
+            // Timeout to ensure correct offsetTop values after all rendering
+            setTimeout(changeActiveLink, 100);
+            window.addEventListener('scroll', changeActiveLink);
+
+
+            // ScrollReveal Initialization for Apple-like reveals
+            if (typeof ScrollReveal !== 'undefined') {
+                const sr = ScrollReveal({
+                    distance: '30px', // More subtle distance
+                    duration: 800,
+                    easing: 'cubic-bezier(0.645, 0.045, 0.355, 1)', // EaseOutCubic (common Apple feel)
+                    reset: false,
+                    mobile: true,
+                    viewFactor: 0.2 // Element is considered visible when 20% is in view
+                });
+
+                sr.reveal('.apple-reveal', {
+                    origin: 'bottom', // Default origin
+                    interval: 100    // Stagger reveals
+                });
+
+                // You can add more specific reveals if needed
+                sr.reveal('.hero-content h1', { delay: 100, origin: 'bottom' });
+                sr.reveal('.hero-content .lead', { delay: 200, origin: 'bottom' });
+                sr.reveal('.hero-image', { delay: 300, origin: 'bottom', distance: '50px', scale: 0.95 });
+
+                sr.reveal('.project-showcase-card', {
+                    origin: 'bottom',
+                    distance: '50px',
+                    scale: 0.98, // Slight scale up
+                    interval: 150
+                });
+                 sr.reveal('.gallery-item', {
+                    origin: 'bottom',
+                    scale: 0.95,
+                    interval: 80
+                });
+
+
+            } else {
+                console.warn('ScrollReveal library not loaded.');
+            }
+        });
+    </script>
+</body>
+</html>

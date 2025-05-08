@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win's Portfolio - Remastered</title>
+    <!-- Using a common Google Font that fits the style -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- ScrollReveal Library (keeping this from your original) -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <style>
+        :root {
+            --bg-color: #1e1e2e; /* Dark background */
+            --card-bg-color: #27293d; /* Slightly lighter for cards/elements */
+            --primary-text-color: #cdd6f4; /* Light text for readability */
+            --secondary-text-color: #a6adc8; /* Softer text */
+            --accent-color: #cba6f7; /* Purple accent */
+            --accent-hover-color: #b4befe; /* Lighter purple/blue for hover */
+            --border-color: #45475a;
+            --section-title-prefix: "#"; /* As in the reference */
+            --font-primary: 'Roboto', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+        }
+
+        /* Reset and Basic Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-color);
+            color: var(--primary-text-color);
+            line-height: 1.7;
+            font-size: 16px;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--primary-text-color);
+            font-family: var(--font-mono); /* Mono for headings like reference */
+            margin-bottom: 0.75em;
+        }
+
+        h1 { font-size: clamp(2.5em, 5vw, 3.5em); font-weight: 700; }
+        h2 { font-size: clamp(1.8em, 4vw, 2.5em); margin-bottom: 1em; }
+        h3 { font-size: clamp(1.2em, 3vw, 1.5em); }
+
+        p {
+            margin-bottom: 1em;
+            color: var(--secondary-text-color);
+            max-width: 65ch; /* For readability */
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--accent-hover-color);
+            text-decoration: underline;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        /* Scroll Progress Bar (Keeping from original, styled for new theme) */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background-color: var(--accent-color);
+            width: 0%;
+            z-index: 10000;
+            transition: width 0.1s linear;
+        }
+
+        /* Header Navigation */
+        .site-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(30, 30, 46, 0.85); /* Semi-transparent dark */
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            z-index: 999;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-family: var(--font-mono);
+            font-size: 1.5em;
+            font-weight: 700;
+            color: var(--primary-text-color);
+        }
+        .logo .accent { color: var(--accent-color); }
+
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        .main-nav a {
+            font-family: var(--font-mono);
+            color: var(--secondary-text-color);
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        .main-nav a:hover, .main-nav a.active {
+            color: var(--accent-color);
+            background-color: rgba(203, 166, 247, 0.1); /* Subtle accent bg */
+            text-decoration: none;
+        }
+
+        /* General Section Styling */
+        .section {
+            padding: 100px 0; /* More padding for new style */
+        }
+        .section:first-of-type {
+            padding-top: 120px; /* Account for fixed header */
+        }
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 2em;
+        }
+        .section-title h2 {
+            margin-bottom: 0; /* Reset margin as it's part of a flex container */
+            font-size: clamp(1.6em, 3.5vw, 2.2em);
+        }
+        .section-title::before {
+            content: var(--section-title-prefix);
+            color: var(--accent-color);
+            font-size: inherit; /* Match h2 size */
+            font-family: var(--font-mono);
+            font-weight: 700;
+        }
+        .section-title .line {
+            flex-grow: 1;
+            height: 1px;
+            background-color: var(--border-color);
+        }
+
+        /* Hero Section (#home) */
+        #home {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            padding-top: 140px; /* Extra padding due to fixed header */
+        }
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        @media (min-width: 768px) {
+            .hero-content { grid-template-columns: 3fr 2fr; }
+            .hero-text { text-align: left; }
+            .hero-image-container { justify-self: end; }
+        }
+        .hero-text h1 {
+            line-height: 1.2;
+            margin-bottom: 0.3em;
+        }
+        .hero-text h1 .highlight {
+            color: var(--accent-color);
+        }
+        .hero-text .subtitle {
+            font-size: 1.2em;
+            color: var(--secondary-text-color);
+            margin-bottom: 1.5em;
+            max-width: 50ch;
+        }
+        .hero-image-container img {
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            /* Optional: Add a border like the reference */
+            /* border: 2px solid var(--accent-color); */
+        }
+        .cta-button {
+            display: inline-block;
+            font-family: var(--font-mono);
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: var(--accent-color);
+            color: var(--bg-color);
+            text-decoration: none;
+        }
+
+        /* About Section (#about) */
+        #about .about-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: flex-start; /* Align items to top */
+        }
+        @media (min-width: 768px) {
+            #about .about-content {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+        #about .about-text p { max-width: none; } /* Allow full width in its column */
+
+
+        /* Skills Section (#skills) - New Styling */
+        #skills .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 2em;
+        }
+        .skill-category {
+            background-color: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .skill-category h3 {
+            color: var(--accent-color);
+            margin-bottom: 1em;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 0.5em;
+            font-size: 1.2em;
+        }
+        .skill-category ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        .skill-category ul li {
+            color: var(--secondary-text-color);
+            margin-bottom: 0.5em;
+            padding-left: 20px;
+            position: relative;
+        }
+        .skill-category ul li::before {
+            content: "▹"; /* Bullet point like reference */
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+        }
+
+
+        /* Achievements/Timeline Section (#achievements) - Adapted */
+        #achievements .timeline {
+            list-style: none;
+            padding: 0;
+            position: relative;
+            margin-top: 2em;
+        }
+        #achievements .timeline::before { /* The central line */
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 20px; /* Position for mobile-first */
+            width: 3px;
+            background-color: var(--border-color);
+        }
+        #achievements .timeline-event {
+            padding: 15px 0 15px 50px; /* Space for dot and date */
+            position: relative;
+            margin-bottom: 20px;
+            background-color: transparent; /* No card bg for individual events */
+        }
+        #achievements .timeline-event::before { /* The circle on the timeline */
+            content: attr(data-date);
+            position: absolute;
+            left: -35px; /* Position date to the left of line */
+            top: 18px;
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            color: var(--secondary-text-color);
+            background-color: var(--bg-color);
+            padding: 2px 5px;
+            white-space: nowrap;
+            transform: translateX(-100%);
+        }
+         #achievements .timeline-event::after { /* The circle ON the timeline */
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            border: 3px solid var(--accent-color);
+            top: 20px;
+            left: 14.5px; /* (20px - (12+6)/2) */
+            z-index: 1;
+        }
+
+        #achievements .timeline-event h3 {
+            margin-top: 0;
+            font-size: 1.2em;
+            color: var(--primary-text-color);
+        }
+        #achievements .timeline-event p {
+            font-size: 0.95em;
+            color: var(--secondary-text-color);
+            max-width: none;
+        }
+        @media (min-width: 768px) { /* Desktop timeline adjustments */
+            #achievements .timeline::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            #achievements .timeline-event {
+                width: 50%;
+                padding-left: 0; /* Reset padding */
+                padding-right: 50px; /* For odd items */
+                text-align: right;
+            }
+            #achievements .timeline-event:nth-child(even) {
+                left: 50%;
+                padding-left: 50px; /* For even items */
+                padding-right: 0;
+                text-align: left;
+            }
+            #achievements .timeline-event::before { /* Date */
+                 left: auto; /* Reset for desktop */
+                 right: -35px;
+                 transform: translateX(100%);
+            }
+            #achievements .timeline-event:nth-child(even)::before {
+                right: auto;
+                left: -35px;
+                transform: translateX(-100%);
+            }
+
+            #achievements .timeline-event::after { /* Dot */
+                left: auto; /* Reset for desktop */
+                right: -6px;
+                 transform: translateX(50%);
+            }
+             #achievements .timeline-event:nth-child(even)::after {
+                right: auto;
+                left: -6px;
+                 transform: translateX(-50%);
+            }
+        }
+
+
+        /* Projects/Gallery Section (#projects) */
+        #projects .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 2em;
+        }
+        .project-card {
+            background-color: var(--card-bg-color);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        }
+        .project-card .card-image img, .project-card .card-video iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .project-card .card-video iframe {
+            border: none;
+        }
+        .project-card .card-content {
+            padding: 20px;
+        }
+        .project-card h3 {
+            margin-top: 0;
+            font-size: 1.3em;
+        }
+        .project-card .project-description {
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+        .project-card .project-tech {
+            margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .project-card .tech-tag {
+            background-color: rgba(203, 166, 247, 0.1); /* Accent with alpha */
+            color: var(--accent-color);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-family: var(--font-mono);
+        }
+        .project-card .project-links a {
+            margin-right: 10px;
+            font-family: var(--font-mono);
+            font-weight: 500;
+        }
+
+        /* Contact Section (#contact) */
+        #contact .contact-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            align-items: flex-start; /* Align to top */
+        }
+        @media (min-width: 768px) {
+            #contact .contact-content {
+                 grid-template-columns: 2fr 1fr; /* Text left, links right */
+            }
+        }
+        #contact .contact-text p {
+            max-width: 60ch;
+        }
+        .contact-links-box {
+            background-color: var(--card-bg-color);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .contact-links-box h3 {
+            color: var(--primary-text-color);
+            margin-bottom: 1em;
+            font-size: 1.2em;
+        }
+        .contact-links-box a {
+            display: flex; /* Use flex for icon alignment */
+            align-items: center;
+            gap: 10px;
+            color: var(--secondary-text-color);
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            transition: color 0.3s ease;
+        }
+        .contact-links-box a:last-child {
+            border-bottom: none;
+        }
+        .contact-links-box a:hover {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        .contact-links-box a .icon { /* Placeholder for icons */
+            font-family: var(--font-mono);
+            color: var(--accent-color);
+            width: 20px; /* Fixed width for alignment */
+        }
+
+        /* Footer */
+        .site-footer {
+            background-color: var(--card-bg-color); /* Use card bg for footer */
+            padding: 30px 0;
+            margin-top: 60px;
+            border-top: 1px solid var(--border-color);
+        }
+        .site-footer .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            text-align: center;
+        }
+        @media (min-width: 768px) {
+            .site-footer .container {
+                flex-direction: row;
+                justify-content: space-between;
+            }
+        }
+        .footer-info .name {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            color: var(--primary-text-color);
+        }
+        .footer-info .email {
+            font-size: 0.9em;
+            color: var(--secondary-text-color);
+        }
+        .footer-socials a {
+            margin: 0 8px;
+            font-size: 1.3em; /* Make icons a bit bigger */
+        }
+        .copyright {
+            font-size: 0.85em;
+            color: var(--secondary-text-color);
+            width: 100%;
+            text-align: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 15px;
+        }
+         @media (min-width: 768px) {
+            .copyright {
+                border-top: none;
+                margin-top: 0;
+                padding-top: 0;
+            }
+        }
+
+
+        /* ScrollReveal fade-in elements (from your original, will just work) */
+        .fade-in {
+            /* Initial state set by ScrollReveal, or add opacity:0 if needed */
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+
+    </style>
+</head>
+<body>
+    <div id="progress-bar"></div>
+
+    <header class="site-header">
+        <div class="container">
+            <a href="#home" class="logo">Win<span class="accent">.</span>R</a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#home" class="nav-link">#home</a></li>
+                    <li><a href="#projects" class="nav-link">#projects</a></li>
+                    <li><a href="#skills" class="nav-link">#skills</a></li>
+                    <li><a href="#about" class="nav-link">#about-me</a></li>
+                    <li><a href="#contact" class="nav-link">#contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="section">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text fade-in">
+                        <h1>Hi, I'm Win <span class="highlight">Rattanaporn</span></h1>
+                        <p class="subtitle">
+                            A Grade 10 student passionate about technology, photography, and film.
+                            Crafting stories and exploring innovation.
+                        </p>
+                        <a href="#contact" class="cta-button">Contact Me =></a>
+                    </div>
+                    <div class="hero-image-container fade-in">
+                        <!-- Replace with an actual image of yourself or relevant graphic -->
+                        <img src="Pic10.webp" alt="Win Rattanaporn - Placeholder Image">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>about-me</h2>
+                    <span class="line"></span>
+                </div>
+                <div class="about-content fade-in">
+                    <div class="about-text">
+                        <p>
+                            Hello, I'm Win (Kirati Rattanaporn), a passionate technology and creative enthusiast from Bangkok, Thailand.
+                            Currently in Grade 10, I have a strong interest in technology, astronomy, photography, and film.
+                        </p>
+                        <p>
+                            My goal is to transfer to SPSM School to study multimedia and later pursue a degree at Chulalongkorn University's Faculty of Communication Arts.
+                            Over the years, I have earned multiple awards in robotics, English contests, and athletics, showcasing my dedication in both academics and sports.
+                        </p>
+                        <p>
+                            You can learn more about me on my <a href="https://en.wikipedia.org/wiki/Draft:Kirati_Rattanaporn" target="_blank">Wikipedia page</a>.
+                            "No risk. No story."
+                        </p>
+                    </div>
+                    <!-- Optional: could add another image here or a different element -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>skills</h2>
+                    <span class="line"></span>
+                </div>
+                <div class="skills-grid fade-in">
+                    <div class="skill-category">
+                        <h3>Creative</h3>
+                        <ul>
+                            <li>Photography (75%)</li>
+                            <li>Film & Videography (70%)</li>
+                            <li>Visual Storytelling</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Technical</h3>
+                        <ul>
+                            <li>Technology Enthusiast (85%)</li>
+                            <li>Robotics (Multiple Awards)</li>
+                            <li>Multimedia Concepts</li>
+                        </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Other</h3>
+                        <ul>
+                            <li>English Proficiency (Contest Winner)</li>
+                            <li>Athletics (Running Medals)</li>
+                            <li>Mathematics (Project Award)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Achievements Section (Timeline) -->
+        <section id="achievements" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>achievements</h2>
+                    <span class="line"></span>
+                </div>
+                <ul class="timeline">
+                    <li class="timeline-event fade-in" data-date="2022">
+                        <h3>Gold Medals: Running & Robotics</h3>
+                        <p>Won gold in school sports day running. Earned two gold medals in robotics, marking my tech journey start.</p>
+                    </li>
+                    <li class="timeline-event fade-in" data-date="2023">
+                        <h3>Awards: English, Robotics, Math</h3>
+                        <p>English contest award. Silver in running. Two more gold medals in robotics. Gold for mathematics project at Southern EP Open House.</p>
+                    </li>
+                    <li class="timeline-event fade-in" data-date="2024">
+                        <h3>National Robotics & More</h3>
+                        <p>Two gold medals in robotics at national level. Silver in 200m running. Silver in regional English contest. Gold in multi-skills at Southern EP Open House.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+
+        <!-- Projects/Gallery Section -->
+        <section id="projects" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>projects-gallery</h2>
+                    <span class="line"></span>
+                </div>
+                <div class="projects-grid">
+                    <!-- Feature Video as a Project -->
+                    <div class="project-card fade-in">
+                        <div class="card-video">
+                            <iframe src="https://www.youtube.com/embed/BMhot-xCYmk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                        <div class="card-content">
+                            <h3>Feature Video: My Journey</h3>
+                            <p class="project-description">A visual showcase of my activities and passions.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Videography</span>
+                                <span class="tech-tag">Storytelling</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="https://www.youtube.com/channel/UCMQefq5ku1GHvTm50Ysixyg" target="_blank">Watch on YouTube =></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Photography Examples -->
+                    <div class="project-card fade-in">
+                        <div class="card-image"> <img src="Pic2.webp" alt="Photography Example 1"> </div>
+                        <div class="card-content">
+                            <h3>Urban Angles</h3>
+                            <p class="project-description">Exploring cityscapes through the lens.</p>
+                            <div class="project-tech"> <span class="tech-tag">Photography</span> <span class="tech-tag">Urban</span></div>
+                        </div>
+                    </div>
+                    <div class="project-card fade-in">
+                        <div class="card-image"> <img src="Pic3.webp" alt="Photography Example 2"> </div>
+                        <div class="card-content">
+                            <h3>Nature's Palette</h3>
+                            <p class="project-description">Capturing the beauty of the natural world.</p>
+                             <div class="project-tech"> <span class="tech-tag">Photography</span> <span class="tech-tag">Nature</span></div>
+                        </div>
+                    </div>
+                     <div class="project-card fade-in">
+                        <div class="card-image"> <img src="Pic4.webp" alt="Photography Example 3"> </div>
+                        <div class="card-content">
+                            <h3>Abstract Moments</h3>
+                            <p class="project-description">Finding art in the everyday.</p>
+                             <div class="project-tech"> <span class="tech-tag">Photography</span> <span class="tech-tag">Abstract</span></div>
+                        </div>
+                    </div>
+                     <div class="project-card fade-in">
+                        <div class="card-image"> <img src="Pic5.webp" alt="Photography Example 4"> </div>
+                        <div class="card-content">
+                            <h3>Monochrome Moods</h3>
+                            <p class="project-description">Stories told in black and white.</p>
+                            <div class="project-tech"> <span class="tech-tag">Photography</span> <span class="tech-tag">B&W</span></div>
+                        </div>
+                    </div>
+                     <div class="project-card fade-in">
+                        <div class="card-image"> <img src="Pic6.webp" alt="Photography Example 5"> </div>
+                        <div class="card-content">
+                            <h3>Candid Captures</h3>
+                            <p class="project-description">Life's unscripted scenes.</p>
+                            <div class="project-tech"> <span class="tech-tag">Photography</span> <span class="tech-tag">Candid</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <div class="section-title">
+                    <h2>contact</h2>
+                    <span class="line"></span>
+                </div>
+                <div class="contact-content fade-in">
+                    <div class="contact-text">
+                        <p>I'm always open to new opportunities, collaborations, or just a friendly chat. Feel free to reach out!</p>
+                        <p>Whether it's about technology, creative projects, or anything in between, I'd love to hear from you.</p>
+                    </div>
+                    <div class="contact-links-box">
+                        <h3>Message me here</h3>
+                        <a href="https://www.instagram.com/Win.rn" target="_blank">
+                            <span class="icon">IG</span> @Win.rn (Personal)
+                        </a>
+                        <a href="https://www.instagram.com/Win.albums" target="_blank">
+                            <span class="icon">IG</span> @Win.albums (Photography)
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCMQefq5ku1GHvTm50Ysixyg" target="_blank">
+                            <span class="icon">YT</span> YouTube Channel
+                        </a>
+                        <a href="https://en.wikipedia.org/wiki/Draft:Kirati_Rattanaporn" target="_blank">
+                            <span class="icon">W</span> Wikipedia Bio
+                        </a>
+                         <!-- Example of an email, if you want to add one
+                         <a href="mailto:youremail@example.com">
+                            <span class="icon">@</span> youremail@example.com
+                        </a>
+                        -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-info">
+                <div class="name">Kirati_Rattanaporn</div>
+                <!-- <div class="email">your.email@example.com</div> -->
+                 <div class="email">Aspiring Multimedia Student & Creative</div>
+            </div>
+            <div class="footer-socials">
+                <a href="https://www.instagram.com/Win.rn" target="_blank" title="Instagram">IG</a>
+                <a href="https://www.youtube.com/channel/UCMQefq5ku1GHvTm50Ysixyg" target="_blank" title="YouTube">YT</a>
+                <!-- Add more social icons/links as needed, e.g., GitHub, LinkedIn -->
+            </div>
+        </div>
+        <div class="container copyright">
+             <p>© <span id="currentYear"></span> Win. All rights reserved. Inspired by modern developer portfolios.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // Scroll Progress Bar
+            const progressBar = document.getElementById('progress-bar');
+            if (progressBar) {
+                window.addEventListener('scroll', () => {
+                    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+                    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrollPercentage = (scrollTop / scrollHeight) * 100;
+                    progressBar.style.width = scrollPercentage + '%';
+                });
+            }
+
+            // Smooth Scrolling & Active Nav Link
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('.section');
+            const headerHeight = document.querySelector('.site-header')?.offsetHeight || 70;
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Active link highlighting on scroll
+            function changeActiveLink() {
+                let index = sections.length;
+                while(--index && window.scrollY + headerHeight + 50 < sections[index].offsetTop) {} // 50 is an offset
+                
+                navLinks.forEach((link) => link.classList.remove('active'));
+                if (index >= 0 && navLinks[index]) { // Check if navLinks[index] exists
+                    navLinks[index].classList.add('active');
+                }
+            }
+            changeActiveLink(); // Initial call
+            window.addEventListener('scroll', changeActiveLink);
+
+
+            // ScrollReveal Initialization
+            if (typeof ScrollReveal !== 'undefined') {
+                const sr = ScrollReveal({
+                    distance: '60px', // Increased distance
+                    duration: 1000,   // Slightly longer duration
+                    easing: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
+                    reset: false,
+                    mobile: true,
+                    viewFactor: 0.2 // Element is considered visible when 20% is in view
+                });
+
+                sr.reveal('.fade-in', {
+                    origin: 'bottom',
+                    interval: 150
+                });
+                 sr.reveal('.hero-text', { origin: 'left', delay: 200 });
+                 sr.reveal('.hero-image-container', { origin: 'right', delay: 400 });
+                 sr.reveal('.project-card', { interval: 100, scale: 0.95 });
+                 sr.reveal('.skill-category', { interval: 100, origin: 'top' });
+                 sr.reveal('.timeline-event', { interval: 100, origin: 'right' });
+
+
+            } else {
+                console.warn('ScrollReveal library not loaded.');
+                // Basic fallback (optional)
+                document.querySelectorAll('.fade-in').forEach(el => el.style.opacity = '1');
+            }
+        });
+    </script>
+</body>
+</html>

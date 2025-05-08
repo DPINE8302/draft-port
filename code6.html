@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win Rattanaporn | Portfolio</title>
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- ScrollReveal Library -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <style>
+        :root {
+            --bg-color: #0a0a0a; /* Very dark grey / off-black */
+            --card-bg-color: #1a1a1a; /* Slightly lighter dark grey */
+            --text-color-primary: #e0e0e0; /* Light grey for primary text */
+            --text-color-secondary: #a0a0a0; /* Medium grey for secondary */
+            --text-color-headings: #ffffff; /* White for headings */
+            --accent-color: #4a90e2; /* A subtle tech blue accent */
+            --border-color: #333333;
+            --border-radius: 10px;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        /* Reset and Basic Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            background-color: var(--bg-color); /* Ensure background for scrollbar area */
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-color-primary);
+            line-height: 1.7;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px; /* Slightly wider for grid layouts */
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        h1, h2, h3, h4 {
+            color: var(--text-color-headings);
+            font-weight: 600;
+            margin-bottom: 0.6em;
+        }
+
+        h1 { font-size: clamp(2.5em, 5vw, 3.5em); line-height: 1.2; font-weight: 700; }
+        h2 { font-size: clamp(1.8em, 4vw, 2.5em); margin-bottom: 1.5em; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5em; color: var(--text-color-secondary); font-weight: 500;}
+        h3 { font-size: clamp(1.2em, 3vw, 1.6em); }
+        h4 { font-size: clamp(1em, 2.5vw, 1.2em); font-weight: 500; }
+
+        p {
+            margin-bottom: 1.2em;
+            color: var(--text-color-secondary);
+            max-width: 70ch;
+        }
+
+        a {
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        a:hover {
+            color: #ffffff; /* Brighter hover for links */
+            text-decoration: underline;
+        }
+
+        img, video, iframe {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: var(--border-radius);
+        }
+
+        /* Header */
+        .site-header {
+            padding: 20px 0;
+            position: sticky; /* Keeps it visible but doesn't overlay content */
+            top: 0;
+            background-color: rgba(10, 10, 10, 0.8); /* Dark translucent */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px); /* Safari */
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .site-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-weight: 700;
+            font-size: 1.3em;
+            color: var(--text-color-headings);
+        }
+        .main-nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        .main-nav a {
+            color: var(--text-color-secondary);
+            font-size: 0.95em;
+            font-weight: 500;
+        }
+        .main-nav a:hover, .main-nav a.active {
+            color: var(--text-color-headings);
+            text-decoration: none;
+        }
+
+        /* General Section Styling */
+        .section {
+            padding: 60px 0;
+        }
+        /* Add space below sticky header only for the first section */
+        body > main > .section:first-child {
+             padding-top: 80px;
+        }
+
+
+        /* Hero Section */
+        #hero {
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        #hero h1 {
+            color: var(--text-color-headings);
+            margin-bottom: 0.2em;
+        }
+        #hero .tagline {
+            font-size: 1.3em;
+            color: var(--text-color-secondary);
+            margin-bottom: 2em;
+            font-weight: 300; /* Lighter weight for tagline */
+        }
+        #hero .cta-link {
+             color: var(--accent-color);
+             font-weight: 500;
+        }
+         #hero .cta-link::after { content: " →"; }
+
+
+        /* Work Grid Section */
+        #work .work-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr)); /* Responsive columns */
+            gap: 30px; /* Gap between grid items */
+            margin-top: 2em;
+        }
+        .project-card {
+            background-color: var(--card-bg-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            text-decoration: none; /* Remove underline from card link */
+            color: inherit; /* Inherit text color */
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        box-shadow 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        border-color 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border-color: #444;
+        }
+        .project-card .card-media {
+            background-color: #000; /* Black background for media */
+            aspect-ratio: 16 / 10; /* Adjust aspect ratio as needed */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .project-card .card-media img,
+        .project-card .card-media iframe {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 0; /* No radius for media inside card */
+            transition: transform 0.4s ease; /* Scale effect on media */
+        }
+         .project-card:hover .card-media img,
+         .project-card:hover .card-media iframe {
+            transform: scale(1.05);
+        }
+
+        .project-card .card-content {
+            padding: 20px;
+            flex-grow: 1; /* Allows content to push footer down */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .project-card .card-content h4 {
+            color: var(--text-color-headings);
+            margin-bottom: 0.3em;
+            font-size: 1.15em;
+        }
+        .project-card .card-description {
+            font-size: 0.9em;
+            color: var(--text-color-secondary);
+            line-height: 1.5;
+            margin-bottom: 1em;
+        }
+        .project-card .card-tags {
+            margin-top: auto; /* Push tags to bottom */
+            padding-top: 10px; /* Space above tags */
+        }
+        .project-card .tag {
+            display: inline-block;
+            background-color: rgba(74, 144, 226, 0.15); /* Accent background */
+            color: var(--accent-color);
+            padding: 4px 10px;
+            border-radius: 15px; /* Pill shape */
+            font-size: 0.75em;
+            font-weight: 500;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+        /* About Section */
+        #about p { max-width: 80ch; }
+        #about a { font-weight: 600; }
+
+        /* Skills Section */
+        #skills ul {
+            list-style: none;
+            padding-left: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 1em;
+        }
+        #skills li {
+            background-color: var(--card-bg-color);
+            padding: 8px 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            color: var(--text-color-secondary);
+            font-size: 0.95em;
+        }
+
+        /* Contact Section */
+        #contact .contact-links {
+            margin-top: 1.5em;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        #contact .contact-link {
+            display: inline-block;
+            background-color: var(--card-bg-color);
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            color: var(--text-color-primary);
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        #contact .contact-link:hover {
+            background-color: #222;
+            border-color: #555;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        /* Footer */
+        .site-footer {
+            padding: 30px 0;
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--text-color-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+        .site-footer a { color: var(--text-color-secondary); }
+        .site-footer a:hover { color: var(--text-color-primary); }
+
+
+        /* ScrollReveal class - REMOVED opacity: 0 */
+        /* .reveal-item { */
+             /* ScrollReveal JS will handle the initial state and transitions */
+        /* } */
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .main-nav { display: none; } /* Hide nav for simplicity */
+            .logo { margin: 0 auto; text-align: center; width: 100%; } /* Center logo */
+            .site-header .container { justify-content: center; } /* Center items in header */
+            h1 { font-size: 2.2em; }
+            h2 { font-size: 1.6em; }
+            #hero .tagline { font-size: 1.1em; }
+            .section { padding: 40px 0; }
+            body > main > .section:first-child { padding-top: 60px; } /* Adjust padding for mobile */
+            #work .work-grid { gap: 20px; }
+        }
+
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a href="#" class="logo">Win Rattanaporn</a>
+            <!-- Optional Nav -->
+             <nav class="main-nav">
+                 <ul>
+                    <li><a href="#work" class="nav-link">Work</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                 </ul>
+             </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="section">
+            <div class="container reveal-item"> <!-- Keep reveal class for JS -->
+                <h1>Designer, Creator, Explorer.</h1>
+                <p class="tagline">
+                    Crafting experiences at the intersection of technology and creativity. <br>Based in Bangkok, Thailand.
+                </p>
+                 <p><a href="#work" class="cta-link">View My Work</a></p>
+            </div>
+        </section>
+
+        <!-- Work Grid Section -->
+        <section id="work" class="section">
+            <div class="container">
+                <h2 class="reveal-item">Selected Work</h2> <!-- Keep reveal class -->
+                <div class="work-grid">
+                    <!-- Feature Video Card -->
+                    <a href="https://www.youtube.com/watch?v=BMhot-xCYmk" target="_blank" class="project-card reveal-item"> <!-- Link to watch page -->
+                        <div class="card-media">
+                           <!-- Thumbnail for video card -->
+                           <img src="https://img.youtube.com/vi/BMhot-xCYmk/hqdefault.jpg" alt="Feature Video Thumbnail" loading="lazy">
+                           <!-- Or keep iframe if you prefer direct embed preview -->
+                           <!-- <iframe src="https://www.youtube.com/embed/BMhot-xCYmk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe> -->
+                        </div>
+                        <div class="card-content">
+                            <div>
+                                <h4>Feature Video: My Journey</h4>
+                                <p class="card-description">A visual exploration of my passions and projects.</p>
+                            </div>
+                            <div class="card-tags">
+                                <span class="tag">Videography</span>
+                                <span class="tag">Storytelling</span>
+                            </div>
+                        </div>
+                    </a>
+
+                    <!-- Photography Cards (Keep reveal class on each) -->
+                    <a href="#work" class="project-card reveal-item">
+                        <div class="card-media"><img src="Pic2.webp" alt="Urban Angles" loading="lazy"></div>
+                        <div class="card-content">
+                             <div><h4>Urban Angles</h4><p class="card-description">Exploring cityscapes through the lens.</p></div>
+                            <div class="card-tags"><span class="tag">Photography</span><span class="tag">Urban</span></div>
+                        </div>
+                    </a>
+                    <a href="#work" class="project-card reveal-item">
+                         <div class="card-media"><img src="Pic3.webp" alt="Nature's Palette" loading="lazy"></div>
+                         <div class="card-content">
+                             <div><h4>Nature's Palette</h4><p class="card-description">Capturing the beauty of the natural world.</p></div>
+                             <div class="card-tags"><span class="tag">Photography</span><span class="tag">Nature</span></div>
+                         </div>
+                    </a>
+                     <a href="#work" class="project-card reveal-item">
+                         <div class="card-media"><img src="Pic4.webp" alt="Abstract Moments" loading="lazy"></div>
+                         <div class="card-content">
+                             <div><h4>Abstract Moments</h4><p class="card-description">Finding art in the everyday.</p></div>
+                            <div class="card-tags"><span class="tag">Photography</span><span class="tag">Abstract</span></div>
+                         </div>
+                     </a>
+                     <a href="#work" class="project-card reveal-item">
+                         <div class="card-media"><img src="Pic5.webp" alt="Monochrome Moods" loading="lazy"></div>
+                         <div class="card-content">
+                            <div><h4>Monochrome Moods</h4><p class="card-description">Stories told in black and white.</p></div>
+                             <div class="card-tags"><span class="tag">Photography</span><span class="tag">B&W</span></div>
+                         </div>
+                     </a>
+                      <a href="#work" class="project-card reveal-item">
+                         <div class="card-media"><img src="Pic6.webp" alt="Candid Captures" loading="lazy"></div>
+                         <div class="card-content">
+                             <div><h4>Candid Captures</h4><p class="card-description">Life's unscripted scenes.</p></div>
+                            <div class="card-tags"><span class="tag">Photography</span><span class="tag">Candid</span></div>
+                         </div>
+                     </a>
+                     <a href="#work" class="project-card reveal-item">
+                         <div class="card-media"><img src="Pic9.webp" alt="Creative Photography Example" loading="lazy"></div>
+                         <div class="card-content">
+                             <div><h4>Creative Storytelling</h4><p class="card-description">Conveying emotions and experiences.</p></div>
+                            <div class="card-tags"><span class="tag">Photography</span><span class="tag">Creative</span></div>
+                         </div>
+                     </a>
+                     <a href="#work" class="project-card reveal-item">
+                         <div class="card-media"><img src="Pic10.webp" alt="Technology in Photography Example" loading="lazy"></div>
+                         <div class="card-content">
+                             <div><h4>Technology Meets Art</h4><p class="card-description">Visuals enhanced by technology.</p></div>
+                            <div class="card-tags"><span class="tag">Photography</span><span class="tag">Technology</span></div>
+                         </div>
+                     </a>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container reveal-item"> <!-- Keep reveal class -->
+                <h2>About Me</h2>
+                <p>
+                    Hello, I'm Win (Kirati Rattanaporn), a passionate technology and creative enthusiast from Bangkok, Thailand.
+                    Currently in Grade 10, I have a strong interest in technology, astronomy, photography, and film.
+                    Over the years, I have earned multiple awards in robotics, English contests, and athletics, showcasing my dedication in both academics and sports.
+                </p>
+                <p>
+                    My goal is to transfer to SPSM School to study multimedia and later pursue a degree at Chulalongkorn University's Faculty of Communication Arts.
+                    I believe that "No risk. No story." - a motto that drives me to explore and learn.
+                </p>
+                <p>
+                    <a href="https://en.wikipedia.org/wiki/Draft:Kirati_Rattanaporn" target="_blank">View my Wikipedia Biography &rarr;</a>
+                </p>
+            </div>
+        </section>
+
+        <!-- Skills & Milestones Section -->
+        <section id="skills" class="section">
+             <div class="container reveal-item"> <!-- Keep reveal class -->
+                <h2>Skills & Achievements</h2>
+                <p>A snapshot of my capabilities and key milestones:</p>
+                <ul>
+                     <li>Photography</li>
+                     <li>Videography</li>
+                     <li>Technology Exploration</li>
+                     <li>Robotics (Multiple Golds)</li>
+                     <li>English Proficiency (Awards)</li>
+                     <li>Athletics (Medals)</li>
+                     <li>Mathematics (Project Gold)</li>
+                     <li>Multimedia Concepts</li>
+                 </ul>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container reveal-item"> <!-- Keep reveal class -->
+                <h2>Get In Touch</h2>
+                <p>
+                    Interested in collaborating or just want to connect? Feel free to reach out through these platforms.
+                </p>
+                <div class="contact-links">
+                    <a href="https://www.instagram.com/Win.rn" target="_blank" class="contact-link">Instagram (@Win.rn)</a>
+                    <a href="https://www.instagram.com/Win.albums" target="_blank" class="contact-link">Photography (@Win.albums)</a>
+                    <a href="https://www.youtube.com/channel/UCMQefq5ku1GHvTm50Ysixyg" target="_blank" class="contact-link">YouTube Channel</a>
+                    <a href="https://en.wikipedia.org/wiki/Draft:Kirati_Rattanaporn" target="_blank" class="contact-link">Wikipedia</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>© <span id="currentYear"></span> Win. All rights reserved.</p>
+            <p><a href="#">Back to Top ↑</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // --- JAVASCRIPT REMAINS THE SAME ---
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // ScrollReveal Initialization
+            if (typeof ScrollReveal !== 'undefined') {
+                const sr = ScrollReveal({
+                    distance: '40px', // Subtle distance
+                    duration: 900,   // Duration
+                    easing: 'cubic-bezier(0.5, 0, 0, 1)', // Smooth easing
+                    origin: 'bottom',
+                    interval: 80,    // Stagger reveals slightly
+                    reset: false,    // Animation happens once
+                    mobile: true,
+                    viewFactor: 0.15 // Trigger when 15% visible
+                    // NOTE: ScrollReveal handles the initial invisible state now
+                });
+
+                // Reveal elements with the class
+                sr.reveal('.reveal-item');
+
+            } else {
+                console.warn('ScrollReveal library not loaded. Animations will not work.');
+                // Simple fallback if needed (optional)
+                // document.querySelectorAll('.reveal-item').forEach(el => el.style.opacity = '1');
+            }
+
+             // Active Nav Link Highlighting (Optional, based on nav links)
+             const navLinks = document.querySelectorAll('.nav-link');
+             const sections = document.querySelectorAll('section[id]'); // Select sections with IDs
+             const header = document.querySelector('.site-header');
+             const headerHeight = header ? header.offsetHeight : 0; // Get header height or default to 0
+
+            function changeActiveLinkOnScroll() {
+                 let scrollY = window.pageYOffset;
+                 let currentSection = "";
+
+                 sections.forEach(section => {
+                     // Adjust offset calculation to better account for sticky header
+                     const sectionTop = section.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20; // Add a small buffer
+
+                     if (scrollY >= sectionTop) {
+                         currentSection = section.getAttribute('id');
+                     }
+                 });
+
+                 navLinks.forEach(link => {
+                     link.classList.remove('active');
+                     if (link.getAttribute('href') === `#${currentSection}`) {
+                         link.classList.add('active');
+                     }
+                 });
+             }
+
+             window.addEventListener('scroll', changeActiveLinkOnScroll);
+             // Initial call
+             changeActiveLinkOnScroll();
+
+        });
+    </script>
+</body>
+</html>
