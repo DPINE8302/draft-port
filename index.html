@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Draft Navigator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Global Resets & Base Styles --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #101010; /* Dark Netflix-esque background */
+            color: #e5e5e5; /* Light text color */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #181818; /* Slightly lighter card background */
+            border-radius: 16px; /* Apple-esque rounded corners */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- Header --- */
+        header {
+            margin-bottom: 50px;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: -0.02em; /* Apple's attention to typography */
+            background: linear-gradient(90deg, #f3f3f3, #c0c0c0); /* Subtle gradient for text */
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text; /* Standard property */
+            text-fill-color: transparent; /* Standard property */
+        }
+
+        header p {
+            font-size: 1.1rem;
+            color: #a0a0a0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- Button Grid & Button Styles --- */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 25px 20px;
+            text-decoration: none;
+            border-radius: 12px; /* Rounded corners */
+            transition: transform 0.2s ease-out, background-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            text-align: center;
+            min-height: 180px; /* Ensure consistent height */
+        }
+
+        .btn-portfolio { /* Renamed class for clarity, though btn-project would still work */
+            background-color: #282828; /* Darker button background */
+            color: #f5f5f7; /* Apple's off-white */
+            border: 1px solid #383838; /* Subtle border */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-portfolio:hover, .btn-portfolio:focus {
+            transform: translateY(-5px) scale(1.02);
+            background-color: #E50914; /* Netflix Red on hover/focus */
+            color: #fff;
+            box-shadow: 0 8px 20px rgba(229, 9, 20, 0.3); /* Red glow */
+            border-color: transparent;
+        }
+        .btn-portfolio:focus {
+            outline: 2px solid #ff525d; /* Focus ring for accessibility */
+            outline-offset: 3px;
+        }
+
+        .btn-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+        }
+
+        .btn-text {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .btn-subtext {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            transition: color 0.3s ease;
+        }
+
+        .btn-portfolio:hover .btn-subtext,
+        .btn-portfolio:focus .btn-subtext {
+            color: #f0f0f0;
+        }
+
+        /* --- Footer --- */
+        footer {
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #707070;
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+            header p {
+                font-size: 1rem;
+            }
+            .button-grid {
+                grid-template-columns: 1fr; /* Stack buttons on smaller screens */
+                gap: 20px;
+            }
+            .btn {
+                padding: 20px;
+                min-height: auto;
+            }
+            .btn-icon {
+                font-size: 2rem;
+                margin-bottom: 10px;
+            }
+            .btn-text {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Portfolio Drafts</h1>
+            <p>Explore the different design iterations of my portfolio.</p>
+        </header>
+
+        <nav class="button-grid">
+            <a href="code1.html" target="_blank" rel="noopener noreferrer" class="btn btn-portfolio">
+                <span class="btn-icon">📽️</span>
+                <span class="btn-text">Portfolio Draft 1</span>
+                <span class="btn-subtext">View initial concept</span>
+            </a>
+            <a href="code2.html" target="_blank" rel="noopener noreferrer" class="btn btn-portfolio">
+                <span class="btn-icon">🎞️</span>
+                <span class="btn-text">Portfolio Draft 2</span>
+                <span class="btn-subtext">Explore revised design</span>
+            </a>
+            <a href="code3.html" target="_blank" rel="noopener noreferrer" class="btn btn-portfolio">
+                <span class="btn-icon">✨</span>
+                <span class="btn-text">Portfolio Draft 3</span>
+                <span class="btn-subtext">See latest iteration</span>
+            </a>
+        </nav>
+
+        <footer>
+            <p>&copy; 2025 Wiqnnc_. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>

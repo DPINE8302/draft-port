@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win's Portfolio - Netflix Style</title>
+    <!-- ScrollReveal Library for Scroll Animations -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <style>
+        /* Reset and Basic Styles */
+        :root {
+            --netflix-red: #E50914;
+            --netflix-dark: #141414;
+            --netflix-gray: #808080;
+            --text-light: #f5f5f5;
+            --card-bg: #222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--netflix-dark);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1, h2, h3 {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: #ccc;
+        }
+
+        a {
+            color: var(--netflix-red);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Scroll Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 5px;
+            background-color: var(--netflix-red);
+            width: 0%;
+            z-index: 1000;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Navigation Header */
+        #main-header {
+            background-color: rgba(20, 20, 20, 0.9);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 999;
+            transition: background-color 0.3s ease;
+        }
+
+        #main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--netflix-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0;
+        }
+
+        #main-header nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        #main-header nav ul li {
+            margin-left: 20px;
+        }
+
+        #main-header nav ul li a {
+            color: var(--text-light);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        #main-header nav ul li a:hover,
+        #main-header nav ul li a.active {
+            color: var(--netflix-red);
+            text-decoration: none;
+        }
+        
+        /* Scrolled Header Style */
+        #main-header.scrolled {
+            background-color: var(--netflix-dark);
+        }
+
+
+        /* Billboard / Hero Section */
+        #hero-billboard {
+            height: 85vh;
+            min-height: 500px;
+            background-size: cover;
+            background-position: center center;
+            display: flex;
+            align-items: flex-end; /* Align content to bottom */
+            padding-bottom: 5%; /* Push content up a bit */
+            position: relative;
+            color: var(--text-light);
+            /* Replace with your desired hero image */
+            background-image: linear-gradient(to top, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0) 60%), url('Pic10.webp'); /* Default, change if needed */
+        }
+        
+        #hero-billboard .overlay-content {
+            max-width: 50%;
+            padding-left: 5%;
+        }
+
+        #hero-billboard h1 {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+
+        #hero-billboard p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            color: #e0e0e0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+        }
+
+        /* Content Rows */
+        .content-row {
+            padding: 60px 0; /* Adjust top padding to account for fixed header */
+        }
+        .content-row:first-of-type {
+            padding-top: 100px; /* Extra padding for the first row after hero */
+        }
+
+        .content-row h2 {
+            font-size: 1.5rem;
+            margin-left: 5%; /* Align with billboard content padding */
+            margin-bottom: 1rem;
+        }
+
+        .row-content {
+            display: flex;
+            overflow-x: auto;
+            overflow-y: hidden; /* Hide vertical scrollbar if any */
+            padding: 1rem 0 1rem 5%; /* Left padding aligns with title, overall padding for scrollbar */
+            scrollbar-width: thin; /* For Firefox */
+            scrollbar-color: var(--netflix-red) var(--card-bg); /* For Firefox */
+        }
+        
+        /* Webkit scrollbar styling */
+        .row-content::-webkit-scrollbar {
+            height: 8px;
+        }
+        .row-content::-webkit-scrollbar-track {
+            background: var(--card-bg);
+            border-radius: 4px;
+        }
+        .row-content::-webkit-scrollbar-thumb {
+            background: var(--netflix-red);
+            border-radius: 4px;
+        }
+        .row-content::-webkit-scrollbar-thumb:hover {
+            background: #b00710;
+        }
+
+
+        /* Cards */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 5px;
+            margin-right: 15px; /* Spacing between cards */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            flex-shrink: 0; /* Prevent cards from shrinking */
+            overflow: hidden; /* Clip content like images */
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            z-index: 10;
+        }
+        .card:last-child {
+            margin-right: 5%; /* Ensure last card has padding from edge on scroll */
+        }
+
+        /* About Me Card */
+        .about-card {
+            width: 90%; /* Takes up most of the row */
+            max-width: 800px;
+            padding: 25px;
+            background-color: #1c1c1c;
+            margin-left: 5%; /* Align with title */
+            margin-right: 5%;
+        }
+        .about-card h3 {
+            color: var(--netflix-red);
+        }
+
+        /* Skill Cards */
+        .skill-card {
+            width: 180px;
+            padding: 20px;
+            text-align: center;
+            background-color: #2a2a2a;
+        }
+        .skill-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+        .skill-card .skill-level-text { /* Placeholder for proficiency */
+            font-size: 0.9rem;
+            color: var(--netflix-gray);
+        }
+
+
+        /* Achievement Cards */
+        .achievement-card {
+            width: 280px;
+            height: 200px; /* Fixed height for consistency */
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background-color: #2a2a2a;
+        }
+        .achievement-card h3 {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        .achievement-card p {
+            font-size: 0.9rem;
+            color: #aaa;
+            flex-grow: 1;
+            margin-bottom: 0.5rem;
+        }
+        .achievement-card .date {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--netflix-red);
+            align-self: flex-start;
+        }
+
+        /* Feature Video Card */
+        .video-card {
+            width: 90%;
+            max-width: 800px; /* Adjust as needed */
+            margin-left: 5%; /* Align with title */
+            margin-right: 5%;
+            background-color: #000; /* Black background for video player */
+        }
+        .video-card iframe {
+            width: 100%;
+            height: 450px; /* Adjust height */
+            border: none;
+            display: block;
+        }
+
+        /* Photography/Image Cards */
+        .photo-card {
+            width: 300px; /* Adjust width as desired */
+            height: 200px; /* Fixed height for image consistency */
+            background-color: var(--card-bg);
+        }
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Cover the card area, cropping if necessary */
+        }
+        .photo-card-large { /* For text-image sections */
+            width: 450px;
+            height: auto;
+            background-color: #2a2a2a;
+        }
+        .photo-card-large img {
+            width: 100%;
+            height: 250px; /* Fixed height for image */
+            object-fit: cover;
+        }
+        .photo-card-large .caption {
+            padding: 15px;
+        }
+        .photo-card-large .caption h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        .photo-card-large .caption p {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+
+        /* Contact Section */
+        #contact-row .row-content {
+            padding-left: 5%;
+            flex-wrap: wrap; /* Allow items to wrap if needed */
+        }
+        .contact-button {
+            display: inline-block;
+            background-color: var(--netflix-red);
+            color: var(--text-light);
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: 10px 15px 10px 0;
+            font-weight: bold;
+            text-align: center;
+            min-width: 180px;
+            transition: background-color 0.3s ease;
+        }
+        .contact-button:hover {
+            background-color: #b00710; /* Darker red on hover */
+            text-decoration: none;
+            color: var(--text-light);
+        }
+        #contact-row p {
+            width: 100%;
+            margin-left: 5%;
+            margin-right: 5%;
+            padding-right: 5%; /* Ensure text doesn't get hidden by scrollbar area if row-content has it */
+        }
+         #contact-row .contact-intro-text {
+            width: calc(90% - 5%); /* Take up full width minus padding */
+            margin-left: 0; /* Override row-content padding for this specific p */
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            background-color: #101010;
+            margin-top: 40px;
+            border-top: 1px solid #303030;
+        }
+        footer p {
+            color: var(--netflix-gray);
+            font-size: 0.9rem;
+        }
+
+        /* ScrollReveal fade-in */
+        .sr-hidden { visibility: hidden; }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            #hero-billboard h1 {
+                font-size: 2.5rem;
+            }
+            #hero-billboard p {
+                font-size: 1rem;
+            }
+            #hero-billboard .overlay-content {
+                max-width: 80%;
+            }
+
+            #main-header .container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            #logo { margin-bottom: 0.5rem; }
+            #main-header nav ul {
+                padding-left: 0; /* Align with logo */
+            }
+            #main-header nav ul li {
+                margin-left: 0;
+                margin-right: 15px;
+            }
+
+            .content-row h2 {
+                font-size: 1.3rem;
+            }
+
+            .card {
+                margin-right: 10px;
+            }
+            .skill-card { width: 140px; padding: 15px;}
+            .achievement-card { width: 240px; height: auto; min-height: 180px; }
+            .photo-card { width: 220px; height: 150px; }
+            .photo-card-large { width: 90%; margin: 0 auto 15px auto; } /* Stack on mobile */
+
+
+            .video-card iframe { height: 300px; }
+            
+            #contact-row .row-content {
+                justify-content: center; /* Center contact buttons on smaller screens */
+            }
+            .contact-button {
+                width: 80%;
+                margin-right: 0;
+            }
+        }
+         @media (max-width: 480px) {
+            #main-header nav ul li a {
+                font-size: 0.9rem;
+            }
+             #main-header nav ul {
+                flex-wrap: wrap; /* Allow nav items to wrap */
+            }
+            #main-header nav ul li {
+                margin-bottom: 5px;
+            }
+            #hero-billboard {
+                height: 70vh;
+            }
+            #hero-billboard h1 {
+                font-size: 2rem;
+            }
+            .row-content {
+                padding-left: 3%;
+            }
+            .content-row h2 {
+                margin-left: 3%;
+            }
+            .card:last-child {
+                margin-right: 3%;
+            }
+         }
+
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Navigation Header -->
+    <header id="main-header">
+        <div class="container">
+            <div id="logo">WIN</div>
+            <nav>
+                <ul>
+                    <li><a href="#hero-billboard" class="nav-link">Home</a></li>
+                    <li><a href="#about-row" class="nav-link">About</a></li>
+                    <li><a href="#achievements-row" class="nav-link">Achievements</a></li>
+                    <li><a href="#featured-video-row" class="nav-link">Video</a></li>
+                    <li><a href="#photography-row" class="nav-link">Photography</a></li>
+                    <li><a href="#contact-row" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Billboard Section -->
+        <section id="hero-billboard" style="background-image: linear-gradient(to top, rgba(20, 20, 20, 1) 0%, rgba(20, 20, 20, 0) 60%), url('Pic6.webp');"> <!-- You can change this main image -->
+            <div class="overlay-content">
+                <h1>Win's Portfolio</h1>
+                <p>No risk. No story.</p>
+                <!-- Optional: <a href="#about-row" class="button">Learn More</a> -->
+            </div>
+        </section>
+
+        <!-- About Me Row -->
+        <section id="about-row" class="content-row">
+            <div class="container">
+                <h2>About Me</h2>
+                <div class="about-card sr-hidden">
+                    <p>
+                        Hello, I'm Win (Kirati Rattanaporn), a passionate technology and creative enthusiast from Bangkok, Thailand.
+                        Currently in Grade 10, I have a strong interest in technology, astronomy, photography, and film.
+                        Over the years, I have earned multiple awards in robotics, English contests, and athletics, showcasing my dedication in both academics and sports.
+                        My goal is to transfer to SPSM School to study multimedia and later pursue a degree at Chulalongkorn University's Faculty of Communication Arts.
+                        <br><br>
+                        You can learn more about me on my <a href="https://en.wikipedia.org/wiki/Draft:Kirati_Rattanaporn" target="_blank">Wikipedia page</a>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Row -->
+        <section id="skills-row" class="content-row">
+            <div class="container">
+                <h2>Skills</h2>
+            </div>
+            <div class="row-content">
+                <div class="card skill-card sr-hidden">
+                    <h3>Photography</h3>
+                    <p class="skill-level-text">Proficiency: 75%</p>
+                </div>
+                <div class="card skill-card sr-hidden">
+                    <h3>Technology</h3>
+                    <p class="skill-level-text">Proficiency: 85%</p>
+                </div>
+                <div class="card skill-card sr-hidden">
+                    <h3>Film</h3>
+                    <p class="skill-level-text">Proficiency: 70%</p>
+                </div>
+                <!-- Add more skills as needed -->
+            </div>
+        </section>
+
+        <!-- Achievements and Awards Row -->
+        <section id="achievements-row" class="content-row">
+             <div class="container">
+                <h2>Achievements & Awards</h2>
+            </div>
+            <div class="row-content">
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2024</span>
+                    <h3>Gold Medal in Robotics - National Level</h3>
+                    <p>Won my first gold medal in robotics at the national level.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2024</span>
+                    <h3>Gold Medal in Robotics - National Level</h3>
+                    <p>Secured another gold medal in robotics at the national level.</p>
+                </div>
+                 <div class="card achievement-card sr-hidden">
+                    <span class="date">2024</span>
+                    <h3>Southern EP Open House - Multi-Skills</h3>
+                    <p>Earned a gold award in the multi-skills competition.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2024</span>
+                    <h3>Silver Award in Regional English Contest</h3>
+                    <p>Earned a silver award at the regional level, showcasing dedication to English.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2024</span>
+                    <h3>Silver Medal in 200m Running</h3>
+                    <p>Won silver in the 200m race at the school sports day, finishing just 0.69 seconds behind the winner.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2024</span>
+                    <h3>Fourth Place in Running</h3>
+                    <p>Finished fourth in a race at the school sports day, demonstrating perseverance.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2023</span>
+                    <h3>Southern EP Open House - Mathematics Project</h3>
+                    <p>Won a gold award for excellence in a mathematics project.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2023</span>
+                    <h3>Gold Medal in Robotics</h3>
+                    <p>Achieved my fourth gold medal in robotics, further advancing my skills in technology.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2023</span>
+                    <h3>Gold Medal in Robotics</h3>
+                    <p>Earned my third gold medal in robotics, proving my expertise in the field.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2023</span>
+                    <h3>Silver Medal in Running</h3>
+                    <p>Won a silver medal at the school sports day, continuing my success in athletics.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2023</span>
+                    <h3>English Contest Award</h3>
+                    <p>Received an award in an English contest, demonstrating strong language skills.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2022</span>
+                    <h3>Gold Medal in Robotics</h3>
+                    <p>Won another gold medal in robotics, further developing my skills in innovation.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2022</span>
+                    <h3>Gold Medal in Robotics</h3>
+                    <p>Earned my first gold medal in robotics, marking the beginning of my journey in technology.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2022</span>
+                    <h3>Gold Medal in Running</h3>
+                    <p>Won a gold medal in the school sports day, showcasing speed and determination.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Video Row -->
+        <section id="featured-video-row" class="content-row">
+            <div class="container">
+                <h2>Feature Video</h2>
+                <div class="card video-card sr-hidden">
+                    <iframe src="https://www.youtube.com/embed/BMhot-xCYmk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photography Showcase Row -->
+        <section id="photography-row" class="content-row">
+            <div class="container">
+                <h2>Photography Showcase</h2>
+                 <p class="section-subtitle" style="margin-left:5%; color: #bbb;">Capturing moments that speak louder than words.</p>
+            </div>
+            <div class="row-content">
+                <div class="card photo-card-large sr-hidden">
+                    <img src="Pic10.webp" alt="Technology in Photography">
+                    <div class="caption">
+                        <h3>Technology and Creativity</h3>
+                        <p>Combining technology with creativity allows for endless possibilities in visual storytelling.</p>
+                    </div>
+                </div>
+                <div class="card photo-card-large sr-hidden">
+                    <img src="Pic9.webp" alt="Creative Photography">
+                    <div class="caption">
+                        <h3>The Art of Storytelling</h3>
+                        <p>Photography is not just about capturing images; it’s about telling stories through my lens.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photo Collage/Gallery Row -->
+        <section id="collage-row" class="content-row">
+            <div class="container">
+                <h2>Gallery</h2>
+            </div>
+            <div class="row-content">
+                <div class="card photo-card sr-hidden"><img src="Pic2.webp" alt="Photo 2"></div>
+                <div class="card photo-card sr-hidden"><img src="Pic3.webp" alt="Photo 3"></div>
+                <div class="card photo-card sr-hidden"><img src="Pic4.webp" alt="Photo 4"></div>
+                <div class="card photo-card sr-hidden"><img src="Pic5.webp" alt="Photo 5"></div>
+                <div class="card photo-card sr-hidden"><img src="Pic6.webp" alt="Photo 6"></div>
+                <!-- Add more collage items as needed -->
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact-row" class="content-row">
+            <div class="container">
+                <h2>Contact</h2>
+                <p class="contact-intro-text sr-hidden">Feel free to reach out to me through the following platforms:</p>
+            </div>
+            <div class="row-content">
+                <a href="https://www.instagram.com/Win.rn" target="_blank" class="contact-button sr-hidden">Instagram (@Win.rn)</a>
+                <a href="https://www.instagram.com/Win.albums" target="_blank" class="contact-button sr-hidden">Photography Instagram (@Win.albums)</a>
+                <a href="https://www.youtube.com/channel/UCMQefq5ku1GHvTm50Ysixyg" target="_blank" class="contact-button sr-hidden">YouTube Channel</a>
+                <a href="https://en.wikipedia.org/wiki/Draft:Kirati_Rattanaporn" target="_blank" class="contact-button sr-hidden">Wikipedia Biography</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© 2024 Win. All rights reserved. Netflix-style concept.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Progress Bar
+        window.onscroll = function() {updateProgressBar()};
+        function updateProgressBar() {
+            var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            var scrolled = (winScroll / height) * 100;
+            document.getElementById("progress-bar").style.width = scrolled + "%";
+
+            // Change header style on scroll
+            const header = document.getElementById('main-header');
+            if (winScroll > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        }
+
+        // ScrollReveal Initialization
+        const sr = ScrollReveal({
+            origin: 'bottom',
+            distance: '50px',
+            duration: 800,
+            delay: 200,
+            easing: 'cubic-bezier(0.5, 0, 0, 1)',
+            reset: false, // Animations repeat only once
+            viewFactor: 0.2, // item appears when 20% visible
+            mobile: true, // enable on mobile
+            useDelay: 'always',
+            container: window.document.documentElement, // default
+            scale: 1,
+            opacity: 0,
+            beforeReveal: function (el) {
+                el.classList.remove('sr-hidden'); // remove helper class so it's not hidden by CSS
+            }
+        });
+
+        // Apply ScrollReveal to elements
+        // Add .sr-hidden class to elements in HTML that you want to animate
+        sr.reveal('.sr-hidden');
+        
+        // Smooth scrolling for nav links & active link highlighting (simplified)
+        document.querySelectorAll('.nav-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Calculate position considering the fixed header height
+                    const headerOffset = document.getElementById('main-header').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - headerOffset - 20; // 20px extra buffer
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+
+        // Active link highlighting (very basic, can be improved)
+        const sections = document.querySelectorAll('section[id]');
+        const navLi = document.querySelectorAll('#main-header nav ul li a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - document.getElementById('main-header').offsetHeight - 50; // Adjust offset
+                if (pageYOffset >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLi.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').substring(1) === current) {
+                    a.classList.add('active');
+                }
+            });
+        });
+
+    </script>
+</body>
+</html>

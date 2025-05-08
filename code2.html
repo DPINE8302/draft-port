@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Win's Portfolio - The Fusion Experience</title>
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <style>
+        :root {
+            --bg-dark: #1a1a1a; /* Slightly softer dark */
+            --bg-card: #2c2c2c;
+            --text-primary: #f0f0f0;
+            --text-secondary: #b0b0b0;
+            --accent-red: #E50914;
+            --accent-apple-blue: #007aff; /* Apple's blue for a touch */
+            --border-light: #444;
+            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        }
+
+        /* Reset and Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px; /* Base font size */
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden; /* Prevent horizontal scroll on body */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1400px; /* Wider max-width for Apple feel */
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        h1, h2, h3, h4 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+        h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700;}
+        h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 600; margin-bottom: 2rem;}
+        h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); font-weight: 500;}
+        h4 { font-size: clamp(1rem, 2.5vw, 1.2rem); font-weight: 500;}
+
+        p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem);
+        }
+
+        a {
+            color: var(--accent-apple-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: var(--accent-red);
+            text-decoration: underline;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px; /* Softer corners for images */
+        }
+
+        /* Scroll Progress Bar */
+        #progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-red), var(--accent-apple-blue));
+            width: 0%;
+            z-index: 1001;
+            transition: width 0.1s ease-out;
+        }
+
+        /* Navigation Header */
+        #main-header {
+            background-color: rgba(26, 26, 26, 0.85); /* Slightly transparent */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            border-bottom: 1px solid transparent;
+        }
+        #main-header.scrolled {
+            background-color: rgba(30, 30, 30, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            border-bottom: 1px solid var(--border-light);
+        }
+        #main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            cursor: pointer; /* For easter egg */
+            transition: transform 0.2s ease-in-out, color 0.2s ease;
+        }
+        #logo:active {
+            transform: scale(0.95);
+        }
+        #logo .w { color: var(--accent-red); }
+        #logo .i { color: var(--accent-apple-blue); }
+        #logo .n { color: var(--text-primary); }
+
+
+        #main-header nav ul {
+            list-style: none;
+            display: flex;
+        }
+        #main-header nav ul li {
+            margin-left: 25px;
+        }
+        #main-header nav ul li a {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+            padding-bottom: 5px;
+        }
+        #main-header nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent-red);
+            transition: width 0.3s ease;
+        }
+        #main-header nav ul li a:hover,
+        #main-header nav ul li a.active {
+            color: var(--text-primary);
+        }
+        #main-header nav ul li a:hover::after,
+        #main-header nav ul li a.active::after {
+            width: 100%;
+        }
+
+        /* Hero Section - Apple Style */
+        #hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 80px; /* Account for header */
+            background: url('Pic10.webp') no-repeat center center/cover; /* CHANGE THIS IMAGE */
+            position: relative;
+            overflow: hidden;
+        }
+        #hero-section::before { /* Dark overlay for text readability */
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(26,26,26,0.3) 0%, rgba(26,26,26,0.9) 100%);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+        .hero-content h1 {
+            color: #fff;
+            text-shadow: 0 2px 15px rgba(0,0,0,0.5);
+            margin-bottom: 1.5rem;
+        }
+        .hero-content .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: #e0e0e0;
+            margin-bottom: 2rem;
+            font-weight: 400;
+            text-shadow: 0 1px 10px rgba(0,0,0,0.4);
+        }
+        .hero-cta {
+            display: inline-block;
+            background-color: var(--accent-apple-blue);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        .hero-cta:hover {
+            background-color: #005bb5;
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: #fff;
+        }
+        
+        /* Hidden Gem Trigger */
+        .hidden-gem-trigger {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255,255,255,0.1); /* Very subtle */
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 2;
+            transition: background-color 0.3s ease;
+        }
+        .hidden-gem-trigger:hover {
+            background-color: var(--accent-red);
+        }
+
+
+        /* Content Rows & Sections */
+        .content-section {
+            padding: 80px 0;
+        }
+        .content-section.alt-bg {
+            background-color: #222222; /* Slightly different bg for variety */
+        }
+        .row-title {
+            margin-bottom: 2.5rem;
+            text-align: left; /* Or center if preferred */
+            padding-left: calc((100% - min(90%, 1400px)) / 2 + 20px); /* Align with container start */
+        }
+        @media (max-width: 768px) {
+            .row-title { padding-left: 5%; }
+        }
+
+        .horizontal-scroll-row {
+            display: flex;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 1rem 0 2rem calc((100% - min(90%, 1400px)) / 2 + 20px); /* Start scroll from container edge */
+            margin-right: -20px; /* Counteract container padding for full bleed scroll */
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-red) var(--bg-card);
+        }
+        .horizontal-scroll-row::-webkit-scrollbar { height: 8px; }
+        .horizontal-scroll-row::-webkit-scrollbar-track { background: var(--bg-card); border-radius: 4px; }
+        .horizontal-scroll-row::-webkit-scrollbar-thumb { background: var(--accent-red); border-radius: 4px; }
+        .horizontal-scroll-row::-webkit-scrollbar-thumb:hover { background: #b00710; }
+        
+        .horizontal-scroll-row > *:last-child {
+            margin-right: calc((100% - min(90%, 1400px)) / 2 + 20px); /* End scroll at container edge */
+        }
+        @media (max-width: 768px) {
+            .horizontal-scroll-row { padding-left: 5%; }
+            .horizontal-scroll-row > *:last-child { margin-right: 5%; }
+        }
+
+
+        /* Generic Card Style - Apple Influence */
+        .card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            margin-right: 20px;
+            flex-shrink: 0;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+            z-index: 10;
+        }
+
+        /* About Section (Single Card Focus) */
+        #about .container {
+            max-width: 900px;
+        }
+        .about-content-card {
+            background-color: var(--bg-card);
+            padding: clamp(20px, 5vw, 40px);
+            border-radius: 16px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.15);
+        }
+        .about-content-card h3 { color: var(--accent-apple-blue); }
+
+        /* Skill Cards */
+        .skill-card {
+            width: 200px;
+            padding: 25px;
+            text-align: center;
+        }
+        .skill-card h4 { margin-bottom: 0.5rem; }
+        .skill-card .skill-bar-container {
+            width: 100%;
+            height: 8px;
+            background-color: #444;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        .skill-bar {
+            height: 100%;
+            background-color: var(--accent-apple-blue);
+            border-radius: 4px;
+            width: 0; /* Animated by JS */
+            transition: width 1s ease-in-out;
+        }
+
+        /* Achievement Cards */
+        .achievement-card {
+            width: 320px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+        }
+        .achievement-card .date {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-red);
+            margin-bottom: 0.5rem;
+        }
+        .achievement-card h4 { margin-bottom: 0.5rem; }
+        .achievement-card p { font-size: 0.9rem; flex-grow: 1; margin-bottom: 0; }
+
+        /* Feature Video Section - Apple Style Full Width Focus */
+        #feature-video-section {
+            text-align: center;
+        }
+        .video-wrapper {
+            max-width: 960px;
+            margin: 0 auto;
+            background-color: #000;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            aspect-ratio: 16 / 9; /* Maintain aspect ratio */
+        }
+        .video-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        #feature-video-section .section-subtitle {
+            max-width: 700px;
+            margin: 1.5rem auto 0 auto;
+            color: var(--text-secondary);
+        }
+
+        /* Photography/Image Cards */
+        .photo-card {
+            width: 350px;
+            height: 250px;
+        }
+        .photo-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-card-large {
+            width: 500px; /* Larger for showcase */
+            background-color: var(--bg-card);
+        }
+        .photo-card-large img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .photo-card-large .caption {
+            padding: 20px;
+        }
+        .photo-card-large .caption h4 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .photo-card-large .caption p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0;}
+
+        /* Contact Section */
+        #contact .container {
+            text-align: center;
+            max-width: 800px;
+        }
+        .contact-buttons {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .contact-button {
+            display: inline-block;
+            background-color: var(--accent-apple-blue);
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 25px; /* Pill shape */
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 0.95rem;
+        }
+        .contact-button:hover {
+            background-color: var(--accent-red);
+            transform: translateY(-2px);
+            text-decoration: none;
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            background-color: #111; /* Darker footer */
+            margin-top: 60px;
+            border-top: 1px solid #333;
+        }
+        footer p {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        footer .footer-secret {
+            color: #444; /* Very subtle for easter egg */
+            font-size: 0.7rem;
+            cursor: help;
+        }
+
+        /* Easter Egg Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-content {
+            background-color: var(--bg-card);
+            padding: 30px 40px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-content h3 {
+            color: var(--accent-red);
+            margin-bottom: 1rem;
+        }
+        .modal-content p {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+        }
+        .modal-close-btn {
+            background-color: var(--accent-apple-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .modal-close-btn:hover {
+            background-color: #005bb5;
+        }
+
+        /* Sparkle effect for logo clicks */
+        .sparkle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-red);
+            border-radius: 50%;
+            pointer-events: none; /* So they don't interfere with clicks */
+            animation: sparkle-anim 0.6s forwards;
+            opacity: 0;
+        }
+        @keyframes sparkle-anim {
+            0% { transform: scale(0.5); opacity: 1; }
+            100% { transform: scale(1.5) translate(var(--tx), var(--ty)); opacity: 0; }
+        }
+
+
+        /* ScrollReveal base hidden state */
+        .sr-hidden { visibility: hidden; }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .horizontal-scroll-row {
+                /* For slightly better touch scroll experience, might need to adjust padding */
+            }
+            .photo-card-large { width: 400px; }
+            .photo-card { width: 300px; height: 210px;}
+        }
+
+        @media (max-width: 768px) {
+            html { font-size: 15px; }
+            #main-header .container { flex-direction: column; align-items: center; }
+            #logo { margin-bottom: 0.8rem; }
+            #main-header nav ul { padding-left: 0; justify-content: center; flex-wrap: wrap;}
+            #main-header nav ul li { margin: 0 10px 10px 10px; }
+            
+            .hero-content h1 { font-size: 2.2rem; }
+            .hero-content .subtitle { font-size: 1.1rem; }
+
+            .content-section { padding: 60px 0; }
+            .row-title { text-align: center; padding-left: 0;}
+            .horizontal-scroll-row { padding-left: 5%; padding-right: 5%; margin-right: 0; }
+            .horizontal-scroll-row > *:last-child { margin-right: 0; } /* No extra margin needed on mobile */
+            
+            .card { margin-right: 15px; }
+            .skill-card { width: 160px; }
+            .achievement-card { width: 280px; }
+            .photo-card { width: 250px; height: 180px; }
+            .photo-card-large { width: 90%; margin: 0 auto 20px auto; }
+        }
+         @media (max-width: 480px) {
+            html { font-size: 14px; }
+            #main-header nav ul li a { font-size: 0.9rem; }
+         }
+    </style>
+</head>
+<body>
+    <div id="progress-bar"></div>
+
+    <header id="main-header">
+        <div class="container">
+            <div id="logo" title="Psst! Try clicking me a few times.">
+                <span class="w">W</span><span class="i">i</span><span class="n">n</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#hero-section" class="nav-link active">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#achievements" class="nav-link">Achievements</a></li>
+                    <li><a href="#feature-video-section" class="nav-link">Showcase</a></li>
+                    <li><a href="#photography" class="nav-link">Gallery</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="hero-section">
+            <div class="hero-content sr-hidden">
+                <h1>Kirati "Win" Rattanaporn</h1>
+                <p class="subtitle">Tech Enthusiast, Creative Mind, Future Innovator. <br>Exploring the intersection of technology and art.</p>
+                <a href="#about" class="hero-cta">Discover My Journey</a>
+            </div>
+            <div class="hidden-gem-trigger" title="What's this?"></div>
+        </section>
+
+        <section id="about" class="content-section">
+            <div class="container">
+                <h2 class="sr-hidden">About Me</h2>
+                <div class="about-content-card sr-hidden">
+                    <h3>Hello, I'm Win!</h3>
+                    <p>
+                        A passionate Grade 10 student from Bangkok, Thailand, with a deep-seated curiosity for technology, astronomy, photography, and filmmaking. My journey is marked by a drive to learn and create, earning multiple awards in robotics, English, and athletics.
+                    </p>
+                    <p>
+                        My ambition is to merge my technical skills with creative expression, aiming to study multimedia at SPSM School and eventually Communication Arts at Chulalongkorn University. I believe in the power of "No risk. No story."
+                    </p>
+                    <p>
+                        Learn more on my <a href="https://en.wikipedia.org/wiki/Draft:Kirati_Rattanaporn" target="_blank" rel="noopener noreferrer">Wikipedia draft</a>.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="content-section alt-bg">
+            <h2 class="row-title sr-hidden">Core Skills</h2>
+            <div class="horizontal-scroll-row">
+                <div class="card skill-card sr-hidden">
+                    <h4>Photography</h4>
+                    <p class="skill-level-text">Visual Storytelling</p>
+                    <div class="skill-bar-container"><div class="skill-bar" data-level="75%"></div></div>
+                </div>
+                <div class="card skill-card sr-hidden">
+                    <h4>Technology & Robotics</h4>
+                    <p class="skill-level-text">Innovation & Problem-Solving</p>
+                    <div class="skill-bar-container"><div class="skill-bar" data-level="85%"></div></div>
+                </div>
+                <div class="card skill-card sr-hidden">
+                    <h4>Filmmaking</h4>
+                    <p class="skill-level-text">Creative Direction</p>
+                    <div class="skill-bar-container"><div class="skill-bar" data-level="70%"></div></div>
+                </div>
+                <div class="card skill-card sr-hidden">
+                    <h4>English Communication</h4>
+                    <p class="skill-level-text">Articulate & Persuasive</p>
+                    <div class="skill-bar-container"><div class="skill-bar" data-level="80%"></div></div>
+                </div>
+                 <div class="card skill-card sr-hidden">
+                    <h4>Adaptability</h4>
+                    <p class="skill-level-text">Quick Learner</p>
+                    <div class="skill-bar-container"><div class="skill-bar" data-level="90%"></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="achievements" class="content-section">
+            <h2 class="row-title sr-hidden">Milestones & Awards</h2>
+            <div class="horizontal-scroll-row">
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2024</span><h4>National Robotics Gold (x2)</h4>
+                    <p>Secured two gold medals at the national level robotics competitions.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2024</span><h4>Southern EP Multi-Skills Gold</h4>
+                    <p>Gold award in the multi-skills competition, showcasing versatility.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2024</span><h4>Regional English Contest Silver</h4>
+                    <p>Recognized for English proficiency at the regional level.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2023</span><h4>Mathematics Project Gold</h4>
+                    <p>Excellence in a mathematics project at Southern EP Open House.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2023</span><h4>Robotics Gold Medals (x2)</h4>
+                    <p>Continued success with two more gold medals in robotics.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">2022</span><h4>First Robotics Golds (x2)</h4>
+                    <p>Began my robotics journey with two gold medals.</p>
+                </div>
+                <div class="card achievement-card sr-hidden">
+                    <span class="date">Multiple Years</span><h4>Athletics Medals</h4>
+                    <p>Gold and Silver medals in running events (200m, etc.) at school sports days.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="feature-video-section" class="content-section alt-bg">
+            <div class="container">
+                <h2 class="sr-hidden">Featured Showcase</h2>
+                <div class="video-wrapper sr-hidden">
+                    <iframe src="https://www.youtube.com/embed/BMhot-xCYmk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen title="Feature Video"></iframe>
+                </div>
+                <p class="section-subtitle sr-hidden">A glimpse into my creative work and technical explorations. This video highlights some of the projects I'm passionate about.</p>
+            </div>
+        </section>
+
+        <section id="photography" class="content-section">
+            <h2 class="row-title sr-hidden">A Journey Through My Lens</h2>
+            <div class="horizontal-scroll-row">
+                <div class="card photo-card-large sr-hidden">
+                    <img src="Pic10.webp" alt="Tech & Creativity">
+                    <div class="caption"><h4>Tech Meets Creativity</h4><p>Exploring innovative ways to capture the world.</p></div>
+                </div>
+                <div class="card photo-card-large sr-hidden">
+                    <img src="Pic9.webp" alt="Storytelling through Lens">
+                    <div class="caption"><h4>Visual Narratives</h4><p>Every photo tells a unique story and evokes emotion.</p></div>
+                </div>
+                <div class="card photo-card sr-hidden"><img src="Pic2.webp" alt="Photo 2"></div>
+                <div class="card photo-card sr-hidden"><img src="Pic3.webp" alt="Photo 3"></div>
+                <div class="card photo-card sr-hidden"><img src="Pic4.webp" alt="Photo 4"></div>
+                <div class="card photo-card sr-hidden"><img src="Pic5.webp" alt="Photo 5"></div>
+                <div class="card photo-card sr-hidden"><img src="Pic6.webp" alt="Photo 6"></div>
+            </div>
+        </section>
+
+        <section id="contact" class="content-section alt-bg">
+            <div class="container sr-hidden">
+                <h2>Let's Connect</h2>
+                <p>Interested in collaborating, have a question, or just want to say hi? <br>Feel free to reach out through any of these platforms.</p>
+                <div class="contact-buttons">
+                    <a href="https://www.instagram.com/Win.rn" target="_blank" rel="noopener noreferrer" class="contact-button">Instagram (@Win.rn)</a>
+                    <a href="https://www.instagram.com/Win.albums" target="_blank" rel="noopener noreferrer" class="contact-button">Photography (@Win.albums)</a>
+                    <a href="https://www.youtube.com/channel/UCMQefq5ku1GHvTm50Ysixyg" target="_blank" rel="noopener noreferrer" class="contact-button">YouTube Channel</a>
+                    <a href="https://en.wikipedia.org/wiki/Draft:Kirati_Rattanaporn" target="_blank" rel="noopener noreferrer" class="contact-button">Wikipedia Biography</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© <span id="currentYear"></span> Win. All rights reserved.</p>
+            <p>Designed with a fusion of inspirations. <span class="footer-secret" title="Try the Konami code on your keyboard!">Shhh...</span></p>
+        </div>
+    </footer>
+
+    <!-- Easter Egg Modal -->
+    <div id="easterEggModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>🎉 You found a Secret! 🎉</h3>
+            <p id="easterEggMessage">Well done, explorer! You've uncovered a hidden gem. Keep being curious!</p>
+            <button id="closeModalBtn" class="modal-close-btn">Awesome!</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Scroll Progress Bar & Header Scroll ---
+            const progressBar = document.getElementById('progress-bar');
+            const header = document.getElementById('main-header');
+            window.addEventListener('scroll', () => {
+                let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                let scrolled = (winScroll / height) * 100;
+                progressBar.style.width = scrolled + "%";
+
+                if (winScroll > 50) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // --- ScrollReveal Initialization ---
+            const sr = ScrollReveal({
+                origin: 'bottom',
+                distance: '60px',
+                duration: 1000,
+                delay: 100,
+                easing: 'cubic-bezier(0.5, 0, 0, 1)',
+                reset: false,
+                viewFactor: 0.2,
+                beforeReveal: (el) => {
+                    el.classList.remove('sr-hidden');
+                    // Animate skill bars when they are revealed
+                    if (el.classList.contains('skill-bar')) {
+                        el.style.width = el.dataset.level;
+                    }
+                }
+            });
+            sr.reveal('.sr-hidden');
+            // Manually reveal skill bars as they are inside sr-hidden cards
+            document.querySelectorAll('.skill-bar').forEach(bar => sr.reveal(bar));
+
+
+            // --- Smooth Scrolling & Active Nav Link ---
+            const navLinks = document.querySelectorAll('.nav-link');
+            const sections = document.querySelectorAll('section[id]');
+            const headerOffset = header.offsetHeight + 20; // Extra buffer
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                        const offsetPosition = elementPosition - headerOffset;
+                        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+                    }
+                });
+            });
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - headerOffset - 50;
+                    if (window.pageYOffset >= sectionTop) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').substring(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+                // Default to Home if no section is active (e.g. at the very top)
+                if (!current && window.pageYOffset < sections[0].offsetTop - headerOffset - 50) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    document.querySelector('.nav-link[href="#hero-section"]').classList.add('active');
+                }
+            });
+            // Set initial active link
+            if (window.pageYOffset < sections[0].offsetTop - headerOffset - 50) {
+                 document.querySelector('.nav-link[href="#hero-section"]').classList.add('active');
+            }
+
+
+            // --- Dynamic Year in Footer ---
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+            // --- Easter Egg: Konami Code ---
+            const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+            let konamiIndex = 0;
+            const modal = document.getElementById('easterEggModal');
+            const modalMessage = document.getElementById('easterEggMessage');
+            const closeModalBtn = document.getElementById('closeModalBtn');
+
+            function showModal(message) {
+                modalMessage.textContent = message;
+                modal.classList.add('active');
+            }
+            closeModalBtn.addEventListener('click', () => modal.classList.remove('active'));
+            modal.addEventListener('click', (e) => { // Close if overlay is clicked
+                if (e.target === modal) modal.classList.remove('active');
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key.toLowerCase() === konamiCode[konamiIndex].toLowerCase()) {
+                    konamiIndex++;
+                    if (konamiIndex === konamiCode.length) {
+                        showModal("KONAMI CODE ACTIVATED! You're a true gamer. Enjoy this retro vibe!");
+                        document.body.style.transition = 'filter 0.5s ease';
+                        document.body.style.filter = 'sepia(0.5) contrast(1.2)';
+                        setTimeout(() => {
+                             document.body.style.filter = 'none';
+                        }, 3000);
+                        konamiIndex = 0; // Reset
+                    }
+                } else {
+                    konamiIndex = 0; // Reset if wrong key
+                }
+            });
+            
+            // --- Easter Egg: Hidden Gem Trigger ---
+            const gemTrigger = document.querySelector('.hidden-gem-trigger');
+            let gemClicks = 0;
+            gemTrigger.addEventListener('click', () => {
+                gemClicks++;
+                if (gemClicks === 3) {
+                    showModal("💎 You found the hidden pixel! Your attention to detail is superb. ✨");
+                    gemClicks = 0;
+                }
+            });
+
+            // --- Easter Egg: Interactive Logo ---
+            const logo = document.getElementById('logo');
+            let logoClicks = 0;
+            logo.addEventListener('click', (e) => {
+                logoClicks++;
+                // Create sparkle
+                const sparkle = document.createElement('div');
+                sparkle.classList.add('sparkle');
+                document.body.appendChild(sparkle);
+                // Position sparkle at click
+                sparkle.style.left = e.clientX + window.scrollX + 'px';
+                sparkle.style.top = e.clientY + window.scrollY + 'px';
+                // Randomize sparkle movement
+                const angle = Math.random() * 360;
+                const distance = Math.random() * 30 + 20;
+                sparkle.style.setProperty('--tx', Math.cos(angle * Math.PI / 180) * distance + 'px');
+                sparkle.style.setProperty('--ty', Math.sin(angle * Math.PI / 180) * distance + 'px');
+
+                setTimeout(() => sparkle.remove(), 600); // Remove after animation
+
+                if (logoClicks % 5 === 0) { // Every 5 clicks
+                    logo.style.transform = 'rotate(360deg)';
+                    setTimeout(() => logo.style.transform = 'rotate(0deg)', 500);
+                }
+                 if (logoClicks === 10) {
+                    showModal("You really like clicking the logo, huh? 😄 Thanks for the attention!");
+                    logoClicks = 0; // Reset for this specific message
+                }
+            });
+
+            // --- Console Log Message Easter Egg ---
+            console.log("%c👋 Hello there, fellow developer or curious mind!", "color: #007aff; font-size: 1.2em; font-weight: bold;");
+            console.log("%cThanks for checking out Win's portfolio code. If you find any bugs or have cool ideas, that's awesome!", "color: #E50914;");
+            console.log("Remember: No risk. No story. 😉");
+
+
+        }); // End DOMContentLoaded
+    </script>
+</body>
+</html>
